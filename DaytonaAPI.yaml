@@ -102,7 +102,7 @@ definitions:
         format: int32
       imagePath:
         type: string
-  400StatusCode:
+  StatusCode400:
     description: 'Bad request'
     required:
       - message
