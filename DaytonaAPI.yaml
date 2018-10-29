@@ -27,6 +27,7 @@ paths:
         - name: createUserModel
           in: body
           description: 'Reqired data model to create a new user'
+          required: true
           schema:
             type: object
             required:
@@ -46,6 +47,30 @@ paths:
         400:
           description: 'Bad request'
   /users/{userId}:
+    put:
+      tags:
+        - user
+      summary: 'Updates a user account' 
+      description: 'Updates a user''s account with additional information'
+      operationId: updateUser
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user to update'
+          required: true
+          type: integer
+          format: int32
+        - name: updateUserModel
+          in: body
+          description: 'Data to update'
+          required: true
+          schema:
+            $ref: '#/definitions/user'
+      responses:
+        204:
+          description: 'A user account was successfully updated'
+        400:
+          description: 'Bad request'
     get:
       tags:
         - user
