@@ -1,4 +1,4 @@
-openapi: 3.0.0
+swagger: '2.0'
 info:
   version: '1.0'
   title: 'Daytona API'
@@ -113,8 +113,10 @@ components:
               message:
                 type: string
 servers:
-# Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/AliakseiDudko/DaytonaAPI_3.0/1.0
   - description: 'SwaggerHub API Auto Mocking'
     url: 'https://virtserver.swaggerhub.com/AliakseiDudko/DaytonaAPI/1.0'
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /AliakseiDudko/DaytonaAPI/1.0
+schemes:
+ - https
