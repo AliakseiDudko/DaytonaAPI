@@ -41,7 +41,7 @@ paths:
           schema:
             $ref: '#/definitions/user'
         400:
-          $ref: '#/definitions/StatusCode400'
+          description: 'Bad request'
   /users/{userId}:
     get:
       tags:
@@ -109,11 +109,4 @@ definitions:
         type: integer
         format: int32
       imagePath:
-        type: string
-  StatusCode400:
-    description: 'Bad request'
-    required:
-      - message
-    properties:
-      message:
         type: string
