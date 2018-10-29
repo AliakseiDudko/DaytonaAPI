@@ -29,16 +29,7 @@ paths:
           description: 'Reqired data model to create a new user'
           required: true
           schema:
-            type: object
-            required:
-              - user
-              - roleId
-            properties:
-              user:
-                $ref: '#/definitions/user'
-              roleId:
-                type: integer
-                format: int32
+            $ref: '#/definitions/createUserModel'
       responses:
         201:
           description: 'A new user account was succesfully created'
@@ -51,7 +42,7 @@ paths:
       tags:
         - user
       summary: 'Updates a user account' 
-      description: 'Updates a user''s account with additional information'
+      description: 'Updates a user account with additional information'
       operationId: updateUser
       parameters:
         - name: userId
@@ -65,7 +56,7 @@ paths:
           description: 'Data to update'
           required: true
           schema:
-            $ref: '#/definitions/user'
+            $ref: '#/definitions/updateUserModel'
       responses:
         204:
           description: 'A user account was successfully updated'
@@ -107,7 +98,7 @@ paths:
           in: body
           description: 'Reqired data model to create a new shop'
           schema:
-            $ref: '#/definitions/shop'
+            $ref: '#/definitions/createShopModel'
       responses:
         201:
           description: 'A new shop was successfully created'
@@ -124,6 +115,7 @@ definitions:
       - lastName
       - email
       - countryId
+      - statusId
     properties:
       id:
         type: integer
@@ -147,8 +139,12 @@ definitions:
       stateId:
         type: integer
         format: int32
+      city:
+        type: string
+        example: 'New Yourk'
       zipCode:
         type: string
+      socialNetworks
       statusId:
         type: integer
         format: int32
@@ -156,6 +152,90 @@ definitions:
         type: integer
         format: int32
       dateFormatId:
+        type: integer
+        format: int32
+      timeFormatId:
+        type: integer
+        format: int32
+      timeZoneId:
+        type: integer
+        format: int32
+      imagePath:
+        type: string
+  createUserModel:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - email
+      - countryId
+      - roleId
+    properties:
+      firstName:
+        type: string
+        example: 'John'
+      lastName:
+        type: string
+        example: 'Doe'
+      email:
+        type: string
+        format: email
+        example: 'john.doe@daytona.com'
+      countryId:
+        type: integer
+        format: int32
+      roleId:
+        type: integer
+        format: int32
+  updateUserModel:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - email
+      - bio
+      - countryId
+      - stateId
+      - city
+      - zipCode
+      - languageId
+      - dateFormatId
+      - timeFormatId
+      - timeZoneId
+      - imagePath
+    properties:
+      firstName:
+        type: string
+        example: 'John'
+      lastName:
+        type: string
+        example: 'Doe'
+      email:
+        type: string
+        format: email
+        example: 'john.doe@daytona.com'
+      bio:
+        type: string
+        example: 'John Doe''s bio'
+      countryId:
+        type: integer
+        format: int32
+      stateId:
+        type: integer
+        format: int32
+      city:
+        type: string
+        example: 'New Yourk'
+      zipCode:
+        type: string
+        example: '111918'
+      languageId:
+        type: integer
+        format: int32
+      dateFormatId:
+        type: integer
+        format: int32
+      timeFormatId:
         type: integer
         format: int32
       timeZoneId:
@@ -169,7 +249,7 @@ definitions:
        - id
        - name
        - establishedYear
-       - shopTypeId
+       - typeId
        - street
        - city
        - zipCode
@@ -189,7 +269,57 @@ definitions:
         type: integer
         format: int32
         example: 2015
-      shopTypeId:
+      typeId:
+        type: integer
+        format: int32
+      street:
+        type: string
+        example: '5th Avenu, 12'
+      city:
+        type: string
+        example: 'New Yourk'
+      zipCode:
+        type: string
+        example: '111918'
+      stateId:
+        type: integer
+        format: int32
+      employeeCount:
+        type: integer
+        format: int32
+        example: 50
+      description:
+        type: string
+        example: 'Vehicle & Car Service''s description'
+      url:
+        type: string
+        format: url
+        example: 'https://vehiclecarservice.com'
+      imagePath:
+        type: string
+  createShopModel:
+    type: object
+    required:
+       - name
+       - establishedYear
+       - typeId
+       - street
+       - city
+       - zipCode
+       - stateId
+       - employeeCount
+       - description
+       - url
+       - imagePath
+    properties:
+      name:
+        type: string
+        example: 'Vehicle & Car Service'
+      establishedYear:
+        type: integer
+        format: int32
+        example: 2015
+      typeId:
         type: integer
         format: int32
       street:
