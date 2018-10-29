@@ -102,13 +102,12 @@ definitions:
         format: int32
       imagePath:
         type: string
-  responses:
-    400StatusCode:
-      description: 'Bad request'
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
+  400StatusCode:
+    description: 'Bad request'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
