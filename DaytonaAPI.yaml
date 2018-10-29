@@ -44,6 +44,8 @@ paths:
           $ref: '#/definitions/StatusCode400'
   /users/{userId}:
     get:
+      tags:
+        - user
       summary: 'Gets a user account'
       description: 'Gets a single user account by ID'
       operationId: getUserById
