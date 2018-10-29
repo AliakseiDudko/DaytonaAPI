@@ -37,19 +37,22 @@ paths:
       summary: 'Gets a user account'
       description: 'Gets a single user account by ID'
       operationId: 'getUserById'
-      produces:
-        - 'application/json'
       parameters:
         - name: 'userId'
           in: 'path'
           description: 'Id of user to return'
           required: true
-          type: 'integer'
-          format: 'int32'
+          schema:
+            type: 'integer'
+            format: 'int32'
       responses:
         200:
           description: 'OK'
-          schema: $ref '#/components/schemas/user'
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/user'
+
 components:
   schemas:
     user:
