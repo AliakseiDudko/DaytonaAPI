@@ -141,10 +141,13 @@ definitions:
         format: int32
       city:
         type: string
-        example: 'New Yourk'
+        example: 'New York'
       zipCode:
         type: string
-      socialNetworks
+      socialNetworks:
+        type: array
+        items:
+          $ref: '#/definitions/socialNetwork'
       statusId:
         type: integer
         format: int32
@@ -225,10 +228,14 @@ definitions:
         format: int32
       city:
         type: string
-        example: 'New Yourk'
+        example: 'New York'
       zipCode:
         type: string
         example: '111918'
+      socialNetworks:
+        type: array
+        items:
+          $ref: '#/definitions/socialNetwork'
       languageId:
         type: integer
         format: int32
@@ -277,7 +284,7 @@ definitions:
         example: '5th Avenu, 12'
       city:
         type: string
-        example: 'New Yourk'
+        example: 'New York'
       zipCode:
         type: string
         example: '111918'
@@ -327,7 +334,7 @@ definitions:
         example: '5th Avenu, 12'
       city:
         type: string
-        example: 'New Yourk'
+        example: 'New York'
       zipCode:
         type: string
         example: '111918'
@@ -346,4 +353,15 @@ definitions:
         format: url
         example: 'https://vehiclecarservice.com'
       imagePath:
+        type: string
+  socialNetwork:
+    type: object
+    required:
+      - socialNetworkId
+      - account
+    properties:
+      socialNetworkId:
+        type: integer
+        format: int32
+      account:
         type: string
