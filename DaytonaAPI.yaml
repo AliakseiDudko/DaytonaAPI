@@ -22,7 +22,7 @@ paths:
       description: 'Creates a new user account'
       operationId: addUser
       parameters:
-        - name: body
+        - name: createUserModel
           in: body
           schema:
             type: object
