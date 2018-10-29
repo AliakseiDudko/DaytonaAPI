@@ -9,9 +9,15 @@ schemes:
 host: virtserver.swaggerhub.com
 basePath: /AliakseiDudko/DaytonaAPI/1.0
 
+tags:
+  - name: user
+    description: 'Everything about user accounts'
+    
 paths:
   /users:
     post:
+      tags:
+        - user
       summary: 'Creates a new user account'
       description: 'Creates a new user account'
       operationId: addUser
@@ -35,7 +41,7 @@ paths:
           schema:
             $ref: '#/definitions/user'
         400:
-          $ref: '#/definitions/400StatusCode'
+          $ref: '#/definitions/StatusCode400'
   /users/{userId}:
     get:
       summary: 'Gets a user account'
