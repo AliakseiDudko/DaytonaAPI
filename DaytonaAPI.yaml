@@ -3,7 +3,33 @@ info:
   version: '1.0'
   title: 'Daytona API'
   description: 'This is Daytona API'
-paths: {}
+paths:
+  /users:
+    post:
+      description: Creates a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user
+                - claimId
+              properties:
+                user:
+                  $ref: '#/components/schemas/user'
+                claimId:
+                  type: integer
+      responses:
+        201:
+          description: A new user account was succesfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        400:
+          $ref: '#/components/responses/400StatusCode'
 components:
   schemas:
     user:
@@ -17,30 +43,52 @@ components:
       properties:
         id:
           type: integer
+          format: int32
         firstName:
           type: string
+          example: 'John'
         lastName:
           type: string
+          example: 'Doe'
         email:
           type: string
+          format: email
+          example: 'john.doe@daytona.com'
         bio:
           type: string
+          example: 'John Doe''s bio'
         countryId:
           type: integer
+          format: int32
         stateId:
           type: integer
+          format: int32
         zip:
           type: string
         statusId:
           type: integer
+          format: int32
         languageId:
           type: integer
+          format: int32
         dateFormatId:
           type: integer
+          format: int32
         timeZoneId:
           type: integer
+          format: int32
         imagePath:
           type: string
+  responses:
+    400StatusCode:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
 servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/AliakseiDudko/DaytonaAPI/1.0
