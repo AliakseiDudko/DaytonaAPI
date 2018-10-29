@@ -8,26 +8,26 @@ paths:
     post:
       summary: 'Creates a new user account'
       description: 'Creates a new user account'
-      operationId: 'addUser'
+      operationId: addUser
       requestBody:
         required: true
         content:
-          'application/json':
+          application/json:
             schema:
-              type: 'object'
+              type: object
               required:
-                - 'user'
-                - 'roleId'
+                - user
+                - roleId
               properties:
                 user:
                   $ref: '#/components/schemas/user'
                 roleId:
-                  type: 'integer'
+                  type: integer
       responses:
         201:
           description: 'A new user account was succesfully created'
           content:
-            'application/json':
+            application/json:
               schema:
                 $ref: '#/components/schemas/user'
         400:
@@ -36,20 +36,20 @@ paths:
     get:
       summary: 'Gets a user account'
       description: 'Gets a single user account by ID'
-      operationId: 'getUserById'
+      operationId: getUserById
       parameters:
-        - name: 'userId'
-          in: 'path'
+        - name: userId
+          in: path
           description: 'Id of user to return'
           required: true
           schema:
-            type: 'integer'
-            format: 'int32'
+            type: integer
+            format: int32
       responses:
         200:
           description: 'OK'
           content:
-            'application/json':
+            application/json:
               schema:
                 $ref: '#/components/schemas/user'
 
@@ -104,7 +104,7 @@ components:
           type: string
   responses:
     400StatusCode:
-      description: Bad request
+      description: 'Bad request'
       content:
         application/json:
           schema:
@@ -113,5 +113,5 @@ components:
               message:
                 type: string
 servers:
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/AliakseiDudko/DaytonaAPI/1.0
+  - description: 'SwaggerHub API Auto Mocking'
+    url: 'https://virtserver.swaggerhub.com/AliakseiDudko/DaytonaAPI/1.0'
