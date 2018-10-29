@@ -15,7 +15,9 @@ tags:
   - name: shop
     description: 'Everything about users'' shops'
   - name: degree
-    description: 'Everyting about users'' education degree'
+    description: 'Everything about users'' education degree'
+  - name: certificate
+    description: 'Everything about users'' education certificate'
     
 paths:
   /users:
@@ -112,7 +114,7 @@ paths:
     post:
       tags:
         - degree
-      summary: 'Create a user''s degree'
+      summary: 'Creates a user''s degree'
       description: 'Creates a new record about user''s degree'
       operationId: addDegree
       parameters:
@@ -207,7 +209,32 @@ paths:
       responses:
         204:
           description: 'A record about user''s degree was successfully deleted'
-        
+  /users/{userId}/certificates:
+    post:
+      tags:
+        - certificate
+      summary: 'Create a user''s certificate'
+      description: 'Creates a new record about certificate obtained by user'
+      operationId: addCertificate
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user who obtained a certificate'
+          required: true
+          type: integer
+          format: int32
+        - name: createCertificateModel
+          in: body
+          description: 'Required data mode to create a new record about user''s certificate'
+          schema:
+            $ref: '#/definitions/createCertificateModel'
+      responses:
+        201:
+          description: 'A new record about certificate obtained by user was successfully create'
+          schema:
+            $ref: '#/definitions/certificate'
+        400:
+          description: 'Bad request'
 definitions:
   user:
     type: object
@@ -375,9 +402,9 @@ definitions:
         type: string
         example: 'Vehicle & Car Service'
       establishedYear:
-        type: integer
-        format: int32
-        example: 2015
+        type: string
+        format: date
+        example: '11/01/2015'
       typeId:
         type: integer
         format: int32
@@ -535,6 +562,94 @@ definitions:
       graduatedOn:
         type: integer
         example: 2015
+      imagePath:
+        type: string
+  certificate:
+    type: object
+    required:
+      - id
+      - userId
+      - name
+      - level
+      - startedOn
+      - imagePath
+    properties:
+      id:
+        type: integer
+        format: int32
+      userId:
+        type: integer
+        format: int32
+      name:
+        type: string
+        example: 'Ford Reparation Certificate'
+      level:
+        type: string
+        example: '80'
+      startedOn:
+        type: string
+        format: date
+        example: '11/01/2011'
+      expriredOn:
+        type: string
+        format: date
+        example: '11/01/2021'
+      imagePath:
+        type: string
+  createCertificateModel:
+    type: object
+    required:
+      - userId
+      - name
+      - level
+      - startedOn
+      - imagePath
+    properties:
+      userId:
+        type: integer
+        format: int32
+      name:
+        type: string
+        example: 'Ford Reparation Certificate'
+      level:
+        type: string
+        example: '80'
+      startedOn:
+        type: string
+        format: date
+        example: '11/01/2011'
+      expriredOn:
+        type: string
+        format: date
+        example: '11/01/2021'
+      imagePath:
+        type: string
+  updateCertificateModel:
+    type: object
+    required:
+      - id
+      - name
+      - level
+      - startedOn
+      - imagePath
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+        example: 'Ford Reparation Certificate'
+      level:
+        type: string
+        example: '80'
+      startedOn:
+        type: string
+        format: date
+        example: '11/01/2011'
+      expriredOn:
+        type: string
+        format: date
+        example: '11/01/2021'
       imagePath:
         type: string
   socialNetwork:
