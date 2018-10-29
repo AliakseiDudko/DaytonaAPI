@@ -33,9 +33,9 @@ paths:
         201:
           description: 'A new user account was succesfully created'
           schema:
-            $ref: '#/components/schemas/user'
+            $ref: '#/definitions/user'
         400:
-          $ref: '#/components/responses/400StatusCode'
+          $ref: '#/definitions/responses/400StatusCode'
   /users/{userId}:
     get:
       summary: 'Gets a user account'
@@ -52,7 +52,7 @@ paths:
         200:
           description: 'OK'
           schema:
-            $ref: '#/components/schemas/user'
+            $ref: '#/definitions/user'
 
 definitions:
   user:
@@ -102,8 +102,7 @@ definitions:
         format: int32
       imagePath:
         type: string
-        
-responses:
+  responses:
     400StatusCode:
       description: 'Bad request'
       content:
