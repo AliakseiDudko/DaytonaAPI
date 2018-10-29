@@ -6,30 +6,50 @@ info:
 paths:
   /users:
     post:
-      description: Creates a new user account
+      summary: 'Creates a new user account'
+      description: 'Creates a new user account'
+      operationId: 'addUser'
       requestBody:
         required: true
         content:
-          application/json:
+          'application/json':
             schema:
-              type: object
+              type: 'object'
               required:
-                - user
-                - claimId
+                - 'user'
+                - 'roleId'
               properties:
                 user:
                   $ref: '#/components/schemas/user'
-                claimId:
-                  type: integer
+                roleId:
+                  type: 'integer'
       responses:
         201:
-          description: A new user account was succesfully created
+          description: 'A new user account was succesfully created'
           content:
-            application/json:
+            'application/json':
               schema:
                 $ref: '#/components/schemas/user'
         400:
           $ref: '#/components/responses/400StatusCode'
+  /users/{userId}:
+    get:
+      summary: 'Gets a user account'
+      description: 'Gets a single user account by ID'
+      operationId: 'getUserById'
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'userId'
+          in: 'path'
+          description: 'Id of user to return'
+          required: true
+          type: 'integer'
+          format: 'int32'
+      responses:
+        200:
+          description: 'OK'
+          schema: $ref '#/components/schemas/user'
 components:
   schemas:
     user:
