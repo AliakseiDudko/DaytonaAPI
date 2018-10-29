@@ -14,6 +14,8 @@ tags:
     description: 'Everything about user accounts'
   - name: shop
     description: 'Everything about users'' shops'
+  - name: degree
+    description: 'Everyting about users'' education degree'
     
 paths:
   /users:
@@ -352,6 +354,87 @@ definitions:
         type: string
         format: url
         example: 'https://vehiclecarservice.com'
+      imagePath:
+        type: string
+  degree:
+    type: object
+    required:
+      - id
+      - userId
+      - typeId
+      - school
+      - faculty
+      - graduatedOn
+      - imagePath
+    properties:
+      id:
+        type: integer
+        format: int32
+      userId:
+        type: integer
+        format: int32
+      typeId:
+        type: integer
+        format: int32
+      school:
+        type: string
+        example: 'High School of Vehicle Reparation'
+      faculty:
+        type: string
+        example: 'Department of Car Reparation'
+      graduatedOn:
+        type: integer
+        example: 2015
+      imagePath:
+        type: string
+  createDegreeModel:
+    type: object
+    required:
+      - typeId
+      - school
+      - faculty
+      - graduatedOn
+      - imagePath
+    properties:
+      typeId:
+        type: integer
+        format: int32
+      school:
+        type: string
+        example: 'High School of Vehicle Reparation'
+      faculty:
+        type: string
+        example: 'Department of Car Reparation'
+      graduatedOn:
+        type: integer
+        example: 2015
+      imagePath:
+        type: string
+  updateDegreeModel:
+    type: object
+    required:
+      - id
+      - typeId
+      - school
+      - faculty
+      - graduatedOn
+      - imagePath
+    properties:
+      id:
+        type: integer
+        format: int32
+      typeId:
+        type: integer
+        format: int32
+      school:
+        type: string
+        example: 'High School of Vehicle Reparation'
+      faculty:
+        type: string
+        example: 'Department of Car Reparation'
+      graduatedOn:
+        type: integer
+        example: 2015
       imagePath:
         type: string
   socialNetwork:
