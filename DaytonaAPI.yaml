@@ -108,6 +108,32 @@ paths:
             $ref: '#/definitions/shop'
         400:
           description: 'Bad request'
+  /users/{userId}/degrees:
+    post:
+      tags:
+        - degree
+      summary: 'Create a user''s degree'
+      description: 'Creates a new record about user''s degree'
+      operationId: addDegree
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user who has a degree'
+          required: true
+          type: integer
+          format: int32
+        - name: createDegreeModel
+          in: body
+          description: 'Required data model to create a new recored about user''s degree'
+          schema:
+            $ref: '#/definitions/createDegreeModel'
+      responses:
+        201:
+          description: 'A new record about user''s degree was successfully created'
+          schema:
+            $ref: '#/definitions/degree'
+        400:
+          description: 'Bad request'
 definitions:
   user:
     type: object
