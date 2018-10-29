@@ -3,33 +3,37 @@ info:
   version: '1.0'
   title: 'Daytona API'
   description: 'This is Daytona API'
+  
+schemes:
+ - https
+host: virtserver.swaggerhub.com
+basePath: /AliakseiDudko/DaytonaAPI/1.0
+
 paths:
   /users:
     post:
       summary: 'Creates a new user account'
       description: 'Creates a new user account'
       operationId: addUser
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - user
-                - roleId
-              properties:
-                user:
-                  $ref: '#/components/schemas/user'
-                roleId:
-                  type: integer
-      responses:
-        201':
-          description: 'A new user account was succesfully created'
-          content:
-            application/json:
-              schema:
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            required:
+              - user
+              - roleId
+            properties:
+              user:
                 $ref: '#/components/schemas/user'
+              roleId:
+                type: integer
+                format: int32
+      responses:
+        201:
+          description: 'A new user account was succesfully created'
+          schema:
+            $ref: '#/components/schemas/user'
         400:
           $ref: '#/components/responses/400StatusCode'
   /users/{userId}:
@@ -48,10 +52,8 @@ paths:
       responses:
         200:
           description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
+          schema:
+            $ref: '#/components/schemas/user'
 
 components:
   schemas:
@@ -112,8 +114,3 @@ components:
             properties:
               message:
                 type: string
-
-host: virtserver.swaggerhub.com
-basePath: /AliakseiDudko/DaytonaAPI/1.0
-schemes:
- - https
