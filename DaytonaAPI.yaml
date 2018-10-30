@@ -596,12 +596,13 @@ definitions:
         type: string
         example: 'Vehicle & Car Service'
       establishedYear:
-        type: string
-        format: date
-        example: '11/01/2015'
+        type: integer
+        format: int32
+        example: 2015
       typeId:
         type: integer
         format: int32
+        example: 1
       street:
         type: string
         example: '5th Avenu, 12'
@@ -614,6 +615,7 @@ definitions:
       stateId:
         type: integer
         format: int32
+        example: 1
       employeeCount:
         type: integer
         format: int32
@@ -652,6 +654,7 @@ definitions:
       typeId:
         type: integer
         format: int32
+        example: 1
       street:
         type: string
         example: '5th Avenu, 12'
@@ -664,6 +667,7 @@ definitions:
       stateId:
         type: integer
         format: int32
+        example: 1
       employeeCount:
         type: integer
         format: int32
@@ -681,7 +685,6 @@ definitions:
     type: object
     required:
       - id
-      - userId
       - typeId
       - school
       - faculty
@@ -691,12 +694,10 @@ definitions:
       id:
         type: integer
         format: int32
-      userId:
-        type: integer
-        format: int32
       typeId:
         type: integer
         format: int32
+        example: 1
       school:
         type: string
         example: 'High School of Vehicle Reparation'
@@ -706,6 +707,7 @@ definitions:
       graduatedOn:
         type: integer
         example: 2015
+        format: int32
       imagePath:
         type: string
   degreeModel:
@@ -720,6 +722,7 @@ definitions:
       typeId:
         type: integer
         format: int32
+        example: 1
       school:
         type: string
         example: 'High School of Vehicle Reparation'
@@ -728,6 +731,7 @@ definitions:
         example: 'Department of Car Reparation'
       graduatedOn:
         type: integer
+        format: int32
         example: 2015
       imagePath:
         type: string
@@ -735,16 +739,13 @@ definitions:
     type: object
     required:
       - id
-      - userId
       - name
       - level
-      - startedOn
+      - startedYear
+      - startedMonth
       - imagePath
     properties:
       id:
-        type: integer
-        format: int32
-      userId:
         type: integer
         format: int32
       name:
@@ -753,14 +754,22 @@ definitions:
       level:
         type: string
         example: '80'
-      startedOn:
-        type: string
-        format: date
-        example: '11/01/2011'
-      expriredOn:
-        type: string
-        format: date
-        example: '11/01/2021'
+      startedYear:
+        type: integer
+        format: int32
+        example: 2011
+      startedMonth:
+        type: integer
+        format: int32
+        example: 1
+      expriredYear:
+        type: integer
+        format: int32
+        example: 2019
+      expriredMonth:
+        type: integer
+        format: int32
+        example: 1
       imagePath:
         type: string
   certificateModel:
@@ -768,7 +777,8 @@ definitions:
     required:
       - name
       - level
-      - startedOn
+      - startedYear
+      - startedMonth
       - imagePath
     properties:
       name:
@@ -777,72 +787,107 @@ definitions:
       level:
         type: string
         example: '80'
-      startedOn:
-        type: string
-        format: date
-        example: '11/01/2011'
-      expriredOn:
-        type: string
-        format: date
-        example: '11/01/2021'
+      startedYear:
+        type: integer
+        format: int32
+        example: 2011
+      startedMonth:
+        type: integer
+        format: int32
+        example: 1
+      expriredYear:
+        type: integer
+        format: int32
+        example: 2019
+      expriredMonth:
+        type: integer
+        format: int32
+        example: 1
       imagePath:
         type: string
   experience:
     type: object
     required:
       - id
-      - userId
       - title
       - company
-      - startedOn
+      - startedYear
+      - startedMonth
       - city
       - stateId
     properties:
       id:
         type: integer
         format: int32
-      userId:
-        type: integer
-        format: int32
+        example: 1
       title:
         type: string
+        example: 'Automative Technician'
       company:
         type: string
-      startedOn:
-        type: string
-        format: date
-      fininshedOd:
-        type: string
-        format: date
+        example: 'ABC Technician'
+      startedYear:
+        type: integer
+        format: int32
+        example: 2011
+      startedMonth:
+        type: integer
+        format: int32
+        example: 1
+      expriredYear:
+        type: integer
+        format: int32
+        example: 2019
+      expriredMonth:
+        type: integer
+        format: int32
+        example: 1
       city:
         type: string
+        example: 'New York'
       stateId:
         type: integer
         format: int32
+        example: 1
   experienceModel:
     type: object
     required:
       - title
       - company
-      - startedOn
+      - startedYear
+      - startedMonth
       - city
       - stateId
     properties:
       title:
         type: string
+        example: 'Automative Technician'
       company:
         type: string
-      startedOn:
-        type: string
-        format: date
-      fininshedOd:
-        type: string
-        format: date
+        example: 'ABC Technician'
+      startedYear:
+        type: integer
+        format: int32
+        example: 2011
+      startedMonth:
+        type: integer
+        format: int32
+        example: 1
+      expriredYear:
+        type: integer
+        format: int32
+        example: 2019
+      expriredMonth:
+        type: integer
+        format: int32
+        example: 1
       city:
         type: string
+        example: 'New York'
       stateId:
         type: integer
         format: int32
+        example: 1
   socialNetwork:
     type: object
     required:
