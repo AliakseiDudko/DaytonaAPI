@@ -37,23 +37,47 @@ paths:
           schema:
             $ref: '#/definitions/createUserModel'
       responses:
-        201:
+        204:
           description: 'A new user account was succesfully created'
-          schema:
-            $ref: '#/definitions/user'
         400:
           description: 'Bad request'
-  /users/{userId}:
-    get:
+  /users/{userId}/profile:
+    post:
       tags:
         - user
-      summary: 'Gets a user account'
-      description: 'Gets a single user account by ID'
-      operationId: getUserById
+      summary: 'Creates a user profile' 
+      description: 'Creates a user profile with additional information'
+      operationId: createProfile
       parameters:
         - name: userId
           in: path
-          description: 'Id of user to return'
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+        - name: createProfileModel
+          in: body
+          description: 'Data to create'
+          required: true
+          schema:
+            $ref: '#/definitions/createProfileModel'
+      responses:
+        201:
+          description: 'A user profile was successfully created'
+          schema:
+            $ref: '#/definitions/profile'
+        400:
+          description: 'Bad request'
+    get:
+      tags:
+        - user
+      summary: 'Gets a user profile'
+      description: 'Gets a user profile'
+      operationId: 'getProfile'
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
           required: true
           type: integer
           format: int32
@@ -61,29 +85,29 @@ paths:
         200:
           description: 'OK'
           schema:
-            $ref: '#/definitions/user'
+            $ref: '#/definitions/profile'
     put:
       tags:
         - user
-      summary: 'Updates a user account' 
-      description: 'Updates a user account with additional information'
-      operationId: updateUser
+      summary: 'Update a user profile'
+      description: 'Updates a user profile'
+      operationId: updateProfile
       parameters:
         - name: userId
           in: path
-          description: 'Id of user to update'
+          description: 'Id of user'
           required: true
           type: integer
           format: int32
-        - name: updateUserModel
+        - name: updateProfileModel
           in: body
           description: 'Data to update'
           required: true
           schema:
-            $ref: '#/definitions/updateUserModel'
+            $ref: '#/definitions/updateProfileModel'
       responses:
         204:
-          description: 'A user account was successfully updated'
+          description: 'A user profile was successfully updated'
         400:
           description: 'Bad request'
   /users/{userId}/shops:
@@ -91,7 +115,7 @@ paths:
       tags:
         - shop
       summary: 'Creates a new shop'
-      description: 'Creates a new shop belonging to the user with userId'
+      description: 'Creates a new shop belonging to the user'
       operationId: addShop
       parameters:
         - name: userId
@@ -104,7 +128,7 @@ paths:
           in: body
           description: 'Reqired data model to create a new shop'
           schema:
-            $ref: '#/definitions/createShopModel'
+            $ref: '#/definitions/shopModel'
       responses:
         201:
           description: 'A new shop was successfully created'
@@ -130,7 +154,7 @@ paths:
           in: body
           description: 'Required data model to create a new record about user''s degree'
           schema:
-            $ref: '#/definitions/createDegreeModel'
+            $ref: '#/definitions/degreeModel'
       responses:
         201:
           description: 'A new record about user''s degree was successfully created'
@@ -183,7 +207,7 @@ paths:
           description: 'Data to update'
           required: true
           schema:
-            $ref: '#/definitions/updateDegreeModel'
+            $ref: '#/definitions/degreeModel'
       responses:
         204:
           description: 'A record about user''s degree was successfully updated'
@@ -229,7 +253,7 @@ paths:
           in: body
           description: 'Required data model to create a new record about user''s certificate'
           schema:
-            $ref: '#/definitions/createCertificateModel'
+            $ref: '#/definitions/certificateModel'
       responses:
         201:
           description: 'A new record about certificate obtained by user was successfully create'
@@ -282,7 +306,7 @@ paths:
           description: 'Data to update'
           required: true
           schema:
-            $ref: '#/definitions/updateCertificateModel'
+            $ref: '#/definitions/certificateModel'
       responses:
         204:
           description: 'A record about user''s certificate was successfully updated'
@@ -410,64 +434,6 @@ paths:
         204:
           description: 'A record about user''s experience was successfully deleted'
 definitions:
-  user:
-    type: object
-    required:
-      - id
-      - firstName
-      - lastName
-      - email
-      - countryId
-      - statusId
-    properties:
-      id:
-        type: integer
-        format: int32
-      firstName:
-        type: string
-        example: 'John'
-      lastName:
-        type: string
-        example: 'Doe'
-      email:
-        type: string
-        format: email
-        example: 'john.doe@daytona.com'
-      bio:
-        type: string
-        example: 'John Doe''s bio'
-      countryId:
-        type: integer
-        format: int32
-      stateId:
-        type: integer
-        format: int32
-      city:
-        type: string
-        example: 'New York'
-      zipCode:
-        type: string
-      socialNetworks:
-        type: array
-        items:
-          $ref: '#/definitions/socialNetwork'
-      statusId:
-        type: integer
-        format: int32
-      languageId:
-        type: integer
-        format: int32
-      dateFormatId:
-        type: integer
-        format: int32
-      timeFormatId:
-        type: integer
-        format: int32
-      timeZoneId:
-        type: integer
-        format: int32
-      imagePath:
-        type: string
   createUserModel:
     type: object
     required:
@@ -497,22 +463,17 @@ definitions:
       roleId:
         type: integer
         format: int32
-  updateUserModel:
+  profile:
     type: object
     required:
       - firstName
       - lastName
       - email
-      - bio
-      - countryId
-      - stateId
+      - title
       - city
-      - zipCode
-      - languageId
-      - dateFormatId
-      - timeFormatId
-      - timeZoneId
-      - imagePath
+      - stateId
+      - bio
+      - socialNetworks
     properties:
       firstName:
         type: string
@@ -524,39 +485,84 @@ definitions:
         type: string
         format: email
         example: 'john.doe@daytona.com'
-      bio:
+      title:
         type: string
-        example: 'John Doe''s bio'
-      countryId:
-        type: integer
-        format: int32
-      stateId:
-        type: integer
-        format: int32
+        example: 'Auto Specialist'
       city:
         type: string
         example: 'New York'
-      zipCode:
+      stateId:
+        type: integer
+        format: int32
+      bio:
         type: string
-        example: '111918'
+        example: 'John Doe''s bio'
       socialNetworks:
         type: array
         items:
           $ref: '#/definitions/socialNetwork'
-      languageId:
-        type: integer
-        format: int32
-      dateFormatId:
-        type: integer
-        format: int32
-      timeFormatId:
-        type: integer
-        format: int32
-      timeZoneId:
-        type: integer
-        format: int32
-      imagePath:
+  createProfileModel:
+    type: object
+    required:
+      - city
+      - stateId
+      - bio
+      - socialNetworks
+      - localization
+    properties:
+      city:
         type: string
+        example: 'New York'
+      stateId:
+        type: integer
+        format: int32
+      bio:
+        type: string
+        example: 'John Doe''s bio'
+      socialNetworks:
+        type: array
+        items:
+          $ref: '#/definitions/socialNetwork'
+      localization:
+        $ref: '#/definitions/localization'
+  updateProfileModel:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - email
+      - title
+      - city
+      - stateId
+      - bio
+      - socialNetworks
+    properties:
+      firstName:
+        type: string
+        example: 'John'
+      lastName:
+        type: string
+        example: 'Doe'
+      email:
+        type: string
+        format: email
+        example: 'john.doe@daytona.com'
+      title:
+        type: string
+        example: 'Auto Specialist'
+      city:
+        type: string
+        example: 'New York'
+      stateId:
+        type: integer
+        format: int32
+      bio:
+        type: string
+        example: 'John Doe''s bio'
+      socialNetworks:
+        type: array
+        items:
+          $ref: '#/definitions/socialNetwork'
   shop:
     type: object
     required:
@@ -611,7 +617,7 @@ definitions:
         example: 'https://vehiclecarservice.com'
       imagePath:
         type: string
-  createShopModel:
+  shopModel:
     type: object
     required:
        - name
@@ -692,46 +698,15 @@ definitions:
         example: 2015
       imagePath:
         type: string
-  createDegreeModel:
+  degreeModel:
     type: object
     required:
-      - userId
       - typeId
       - school
       - faculty
       - graduatedOn
       - imagePath
     properties:
-      userId:
-        type: integer
-        format: int32
-      typeId:
-        type: integer
-        format: int32
-      school:
-        type: string
-        example: 'High School of Vehicle Reparation'
-      faculty:
-        type: string
-        example: 'Department of Car Reparation'
-      graduatedOn:
-        type: integer
-        example: 2015
-      imagePath:
-        type: string
-  updateDegreeModel:
-    type: object
-    required:
-      - id
-      - typeId
-      - school
-      - faculty
-      - graduatedOn
-      - imagePath
-    properties:
-      id:
-        type: integer
-        format: int32
       typeId:
         type: integer
         format: int32
@@ -778,46 +753,14 @@ definitions:
         example: '11/01/2021'
       imagePath:
         type: string
-  createCertificateModel:
+  certificateModel:
     type: object
     required:
-      - userId
       - name
       - level
       - startedOn
       - imagePath
     properties:
-      userId:
-        type: integer
-        format: int32
-      name:
-        type: string
-        example: 'Ford Reparation Certificate'
-      level:
-        type: string
-        example: '80'
-      startedOn:
-        type: string
-        format: date
-        example: '11/01/2011'
-      expriredOn:
-        type: string
-        format: date
-        example: '11/01/2021'
-      imagePath:
-        type: string
-  updateCertificateModel:
-    type: object
-    required:
-      - id
-      - name
-      - level
-      - startedOn
-      - imagePath
-    properties:
-      id:
-        type: integer
-        format: int32
       name:
         type: string
         example: 'Ford Reparation Certificate'
@@ -933,3 +876,23 @@ definitions:
         format: int32
       account:
         type: string
+  localization:
+    type: object
+    required:
+      - languageId
+      - dateFormatId
+      - timeFormatId
+      - timeZoneId
+    properties:
+      languageId:
+        type: integer
+        format: int32
+      dateFormatId:
+        type: integer
+        format: int32
+      timeFormatId:
+        type: integer
+        format: int32
+      timeZoneId:
+        type: integer
+        format: int32
