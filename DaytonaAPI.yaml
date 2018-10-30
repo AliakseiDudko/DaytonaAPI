@@ -352,7 +352,7 @@ paths:
           in: body
           description: 'Required data model to create a new record about user''s experience'
           schema:
-            $ref: '#/definitions/createExperienceModel'
+            $ref: '#/definitions/experienceModel'
       responses:
         201:
           description: 'A new record about user''s experience was successfully created'
@@ -405,7 +405,7 @@ paths:
           description: 'Data to update'
           required: true
           schema:
-            $ref: '#/definitions/updateExperienceModel'
+            $ref: '#/definitions/experienceModel'
       responses:
         204:
           description: 'A record about user''s experience was successfully updated'
@@ -456,13 +456,15 @@ definitions:
         example: 'john.doe@daytona.com'
       password:
         type: string
-        format: password0
+        format: password
       countryId:
         type: integer
         format: int32
+        example: 1
       roleId:
         type: integer
         format: int32
+        example: 1
   profile:
     type: object
     required:
@@ -494,6 +496,7 @@ definitions:
       stateId:
         type: integer
         format: int32
+        example: 1
       bio:
         type: string
         example: 'John Doe''s bio'
@@ -501,6 +504,9 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/socialNetwork'
+        example:
+          - socialNetworkId: 1
+            account: 'daytonasocial'
   createProfileModel:
     type: object
     required:
@@ -516,6 +522,7 @@ definitions:
       stateId:
         type: integer
         format: int32
+        example: 1
       bio:
         type: string
         example: 'John Doe''s bio'
@@ -523,8 +530,16 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/socialNetwork'
+        example:
+          - socialNetworkId: 1
+            account: 'daytonasocial'
       localization:
         $ref: '#/definitions/localization'
+        example:
+          - languageId: 1
+          - languageId: 1
+          - timeFormatId: 1
+          - timeZoneId: 1
   updateProfileModel:
     type: object
     required:
@@ -809,47 +824,15 @@ definitions:
       stateId:
         type: integer
         format: int32
-  createExperienceModel:
+  experienceModel:
     type: object
     required:
-      - userId
       - title
       - company
       - startedOn
       - city
       - stateId
     properties:
-      userId:
-        type: integer
-        format: int32
-      title:
-        type: string
-      company:
-        type: string
-      startedOn:
-        type: string
-        format: date
-      fininshedOd:
-        type: string
-        format: date
-      city:
-        type: string
-      stateId:
-        type: integer
-        format: int32
-  updateExperienceModel:
-    type: object
-    required:
-      - id
-      - title
-      - company
-      - startedOn
-      - city
-      - stateId
-    properties:
-      id:
-        type: integer
-        format: int32
       title:
         type: string
       company:
@@ -874,8 +857,10 @@ definitions:
       socialNetworkId:
         type: integer
         format: int32
+        example: 1
       account:
         type: string
+        example: 'daytonasocial'
   localization:
     type: object
     required:
@@ -887,12 +872,16 @@ definitions:
       languageId:
         type: integer
         format: int32
+        example: 1
       dateFormatId:
         type: integer
         format: int32
+        example: 1
       timeFormatId:
         type: integer
         format: int32
+        example: 1
       timeZoneId:
         type: integer
         format: int32
+        example: 1
