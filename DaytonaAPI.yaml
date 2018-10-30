@@ -136,6 +136,29 @@ paths:
             $ref: '#/definitions/shop'
         400:
           description: 'Bad request'
+    put:
+      tags:
+        - shop
+      summary: 'Updates a user''s shop'
+      description: 'Updates a user''s shop'
+      operationId: updatedShop
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of shop''s owner'
+          required: true
+          type: integer
+          format: int32
+        - name: updateShopModel
+          in: body
+          description: 'Required data model to update a user''s shop'
+          schema:
+            $ref: '#/definitions/shopModel'
+      responses:
+        204:
+          description: 'A shop was successfully updated'
+        400:
+          description: 'Bad request'
   /users/{userId}/degrees:
     post:
       tags:
