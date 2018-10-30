@@ -20,6 +20,8 @@ tags:
     description: 'Everything about users'' education certificate'
   - name: experience
     description: 'Everything about users'' work experience'
+  - name: country
+    description: 'Everything about countries'
     
 paths:
   /users:
@@ -456,6 +458,54 @@ paths:
       responses:
         204:
           description: 'A record about user''s experience was successfully deleted'
+  /countries/{languageId}:
+    get:
+      tags:
+        - country
+      summary: 'Gets a list of countries'
+      description: 'Gets a list of localized countries'
+      operationId: getCountries
+      parameters:
+        - name: languageId
+          in: path
+          description: 'Id of users'' language'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/keyValue'
+  /countries/{languageId}/{countryId}/states:
+    get:
+      tags:
+        - country
+      summary: 'Gets a list of states of the country'
+      description: 'Gets a list of localized states of the country'
+      operationId: getStates
+      parameters:
+        - name: languageId
+          in: path
+          description: 'Id of user''s language'
+          required: true
+          type: integer
+          format: int32
+        - name: countryId
+          in: path
+          description: 'Id of country'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/keyValue'
 definitions:
   createUserModel:
     type: object
@@ -527,9 +577,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/socialNetwork'
-        example:
-          - socialNetworkId: 1
-            account: 'daytonasocial'
   createProfileModel:
     type: object
     required:
@@ -948,3 +995,16 @@ definitions:
         type: integer
         format: int32
         example: 1
+  keyValue:
+    type: object
+    required:
+      - id
+      - value
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      name: 
+        type: string
+        example: 'value'
