@@ -536,7 +536,7 @@ definitions:
       localization:
         $ref: '#/definitions/localization'
         example:
-          - languageId: 1
+          - languageId: 2
           - languageId: 1
           - timeFormatId: 1
           - timeZoneId: 1
