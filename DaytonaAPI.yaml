@@ -338,7 +338,7 @@ paths:
           description: 'Bad request'
     get:
       tags:
-        - certificate
+        - experience
       summary: 'Gets a list of user''s experiences'
       description: 'Gets a list of user''s experiences'
       operationId: getExperiences
@@ -356,6 +356,59 @@ paths:
             type: array
             items:
               $ref: '#/definitions/experience'
+  /users/{userId}/experiences/{experienceId}:
+    put:
+      tags:
+        - experience
+      summary: 'Updates a record about a user''s experience'
+      description: 'Updates a record about a user''s experience'
+      operationId: updateExperience
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+        - name: experienceId
+          in: path
+          description: 'Id of experience to update'
+          required: true
+          type: integer
+          format: int32
+        - name: updateExperienceModel
+          in: body
+          description: 'Data to update'
+          required: true
+          schema:
+            $ref: '#/definitions/updateExperienceModel'
+      responses:
+        204:
+          description: 'A record about user''s experience was successfully updated'
+        400:
+          description: 'Bad request'
+    delete:
+      tags:
+        - experience
+      summary: 'Deletes a record about user''s experience'
+      description: 'Deletes a record about user''s experience'
+      operationId: deleteExperience
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+        - name: experienceId
+          in: path
+          description: 'Id of experience to delete'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        204:
+          description: 'A record about user''s experience was successfully deleted'
 definitions:
   user:
     type: object
@@ -421,6 +474,7 @@ definitions:
       - firstName
       - lastName
       - email
+      - password
       - countryId
       - roleId
     properties:
@@ -434,6 +488,8 @@ definitions:
         type: string
         format: email
         example: 'john.doe@daytona.com'
+      password:
+        type
       countryId:
         type: integer
         format: int32
