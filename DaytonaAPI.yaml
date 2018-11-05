@@ -11,7 +11,7 @@ basePath: /AliakseiDudko/DaytonaAPI/1.0
 
 tags:
   - name: identity
-    description: 'Everything about users''s identification'
+    description: 'Everything about users''s identification. It may be a standalone API'
   - name: user
     description: 'Everything about user accounts'
   - name: shop
@@ -31,9 +31,9 @@ paths:
   /identities:
     post:
       tags:
-        - user
+        - identity
       summary: 'Creates a new user''s identity'
-      description: 'Creates a new user''s identity'
+      description: 'Creates a new user''s identity. Identitity''s provider part'
       operationId: createIdenitity
       parameters:
         - name: createIdentityModel
@@ -93,6 +93,8 @@ paths:
           description: 'OK'
           schema:
             $ref: '#/definitions/profile'
+        404:
+          description: 'Not found'
     put:
       tags:
         - user
@@ -117,15 +119,15 @@ paths:
           description: 'A user profile was successfully updated'
         400:
           description: 'Bad request'
-  /users/{userId}/profile/uploadImage:
-    put:
+  /users/{userId}/profile/image:
+    post:
       tags:
         - user
-      summary: 'Uploads a user'' image'
-      description: 'Uploads a user'' image'
+      summary: 'Uploads a profile image'
+      description: 'Uploads a profile image'
       consumes:
         - multipart/form-data
-      operationId: uploadImage
+      operationId: uploadProfileImage
       parameters:
         - name: userId
           in: path
@@ -139,15 +141,38 @@ paths:
           required: true
           type: file
       responses:
-        204:
-          description: 'User''s profile image was successfully uploaded'
+        201:
+          description: 'Profile image was successfully uploaded'
+        400:
+          description: 'Bad request'
+    get:
+      tags:
+        - user
+      summary: 'Gets a profile image'
+      description: 'Gets a profile image'
+      operationId: getProfileImage
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: string
+            format: binary
+        404:
+          description: 'Not found'
   /users/{userId}/shops:
     post:
       tags:
         - shop
       summary: 'Creates a new shop'
       description: 'Creates a new shop belonging to the user'
-      operationId: addShop
+      operationId: createShop
       parameters:
         - name: userId
           in: path
@@ -155,7 +180,7 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: createShopModel
+        - name: shopModel
           in: body
           description: 'Reqired data model to create a new shop'
           schema:
@@ -167,6 +192,35 @@ paths:
             $ref: '#/definitions/shop'
         400:
           description: 'Bad request'
+  /users/{userId}/shops/{shopId}:
+    get:
+      tags:
+        - shop
+      summary: 'Gets a user''s shop'
+      description: 'Gets a user''s shop'
+      operationId: getShop
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of shop''s owner'
+          required: true
+          type: integer
+          format: int32
+        - name: shopId
+          in: path
+          description: 'Id of shop'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/shop'
+        404:
+          description: 'Not found'
     put:
       tags:
         - shop
@@ -180,7 +234,13 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: updateShopModel
+        - name: shopId
+          in: path
+          description: 'Id of shop'
+          required: true
+          type: integer
+          format: int32
+        - name: shopModel
           in: body
           description: 'Required data model to update a user''s shop'
           schema:
@@ -190,13 +250,74 @@ paths:
           description: 'A shop was successfully updated'
         400:
           description: 'Bad request'
+  /users/{userId}/shops/{shopId}/image:
+    post:
+      tags:
+        - shop
+      summary: 'Uploads a shop''s image'
+      description: 'Uploads a shop''s image'
+      consumes:
+        - multipart/form-data
+      operationId: uploadShopImage
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+        - name: shopId
+          in: path
+          description: 'Id of shop'
+          required: true
+          type: integer
+          format: int32
+        - name: imageData
+          in: formData
+          description: 'The image to upload'
+          required: true
+          type: file
+      responses:
+        201:
+          description: 'Shop image was successfully uploaded'
+        400:
+          description: 'Bad request'
+    get:
+      tags:
+        - shop
+      summary: 'Gets a shop image'
+      description: 'Gets a shop image'
+      operationId: getShopImage
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+        - name: shopId
+          in: path
+          description: 'Id of shop'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: string
+            format: binary
+        404:
+          description: 'Not found'
   /users/{userId}/degrees:
     post:
       tags:
         - degree
       summary: 'Creates a user''s degree'
       description: 'Creates a new record about a degree got by a user'
-      operationId: addDegree
+      consumes:
+        - multipart/form-data
+      operationId: createDegree
       parameters:
         - name: userId
           in: path
@@ -204,11 +325,16 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: createDegreeModel
-          in: body
+        - name: degreeModel
+          in: formData
           description: 'Required data model to create a new record about user''s degree'
-          schema:
-            $ref: '#/definitions/degreeModel'
+          required: true
+          type: string
+        - name: imageData
+          in: formData
+          description: 'The image to updload'
+          required: true
+          type: file
       responses:
         201:
           description: 'A new record about user''s degree was successfully created'
@@ -242,6 +368,8 @@ paths:
         - degree
       summary: 'Updates a record about a user''s degree'
       description: 'Updates a record about a degree got gy a user'
+      consumes:
+        - multipart/form-data
       operationId: updateDegree
       parameters:
         - name: userId
@@ -256,12 +384,16 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: updateDegreeModel
-          in: body
-          description: 'Data to update'
+        - name: degreeModel
+          in: formData
+          description: 'Required data model to create a new record about user''s degree'
           required: true
-          schema:
-            $ref: '#/definitions/degreeModel'
+          type: string
+        - name: imageData
+          in: formData
+          description: 'The image to updload'
+          required: true
+          type: file
       responses:
         204:
           description: 'A record about user''s degree was successfully updated'
@@ -295,7 +427,9 @@ paths:
         - certificate
       summary: 'Create a user''s certificate'
       description: 'Creates a new record about certificate obtained by user'
-      operationId: addCertificate
+      consumes:
+        - multipart/form-data
+      operationId: createCertificate
       parameters:
         - name: userId
           in: path
@@ -303,11 +437,16 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: createCertificateModel
-          in: body
+        - name: certificateModel
+          in: formData
           description: 'Required data model to create a new record about user''s certificate'
-          schema:
-            $ref: '#/definitions/certificateModel'
+          required: true
+          type: string
+        - name: imageData
+          in: formData
+          description: 'The image to updload'
+          required: true
+          type: file
       responses:
         201:
           description: 'A new record about certificate obtained by user was successfully create'
@@ -341,6 +480,8 @@ paths:
         - certificate
       summary: 'Updates a record about a user''s certificate'
       description: 'Updates a record about a certificate obtained by a user'
+      consumes:
+        - multipart/form-data
       operationId: updateCertificate
       parameters:
         - name: userId
@@ -355,12 +496,16 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: updateCertificateMode
-          in: body
-          description: 'Data to update'
+        - name: certificateModel
+          in: formData
+          description: 'Required data model to create a new record about user''s certificate'
           required: true
-          schema:
-            $ref: '#/definitions/certificateModel'
+          type: string
+        - name: imageData
+          in: formData
+          description: 'The image to updload'
+          required: true
+          type: file
       responses:
         204:
           description: 'A record about user''s certificate was successfully updated'
@@ -394,7 +539,7 @@ paths:
         - experience
       summary: 'Creates a user''s experience'
       description: 'Creates a new record about user''s experience'
-      operationId: addExperience
+      operationId: createExperience
       parameters:
         - name: userId
           in: path
@@ -402,7 +547,7 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: createExperienceModel
+        - name: experienceModel
           in: body
           description: 'Required data model to create a new record about user''s experience'
           schema:
@@ -454,7 +599,7 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: updateExperienceModel
+        - name: experienceModel
           in: body
           description: 'Data to update'
           required: true
@@ -510,6 +655,8 @@ paths:
               type: integer
               format: int32
               example: 2
+        404:
+          description: 'Not found'
     put:
       tags:
         - topic
@@ -584,6 +731,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/keyValue'
+        404:
+          description: 'Not found'
   /topics/{countryId}:
     get:
       tags:
@@ -610,6 +759,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/topic'
+        400:
+          description: 'Not found'
 definitions:
   createIdentityModel:
     type: object
@@ -763,7 +914,6 @@ definitions:
        - employeeCount
        - description
        - url
-       - imagePath
     properties:
       id:
         type: integer
@@ -804,8 +954,6 @@ definitions:
         type: string
         format: url
         example: 'https://vehiclecarservice.com'
-      imagePath:
-        type: string
   shopModel:
     type: object
     required:
@@ -819,7 +967,6 @@ definitions:
        - employeeCount
        - description
        - url
-       - imagePath
     properties:
       name:
         type: string
@@ -856,8 +1003,6 @@ definitions:
         type: string
         format: url
         example: 'https://vehiclecarservice.com'
-      imagePath:
-        type: string
   degree:
     type: object
     required:
@@ -866,7 +1011,6 @@ definitions:
       - school
       - faculty
       - graduatedOn
-      - imagePath
     properties:
       id:
         type: integer
@@ -886,8 +1030,6 @@ definitions:
         type: integer
         example: 2015
         format: int32
-      imagePath:
-        type: string
   degreeModel:
     type: object
     required:
@@ -921,7 +1063,6 @@ definitions:
       - level
       - startedYear
       - startedMonth
-      - imagePath
     properties:
       id:
         type: integer
@@ -949,8 +1090,6 @@ definitions:
         type: integer
         format: int32
         example: 1
-      imagePath:
-        type: string
   certificateModel:
     type: object
     required:
@@ -958,7 +1097,6 @@ definitions:
       - level
       - startedYear
       - startedMonth
-      - imagePath
     properties:
       name:
         type: string
@@ -982,8 +1120,6 @@ definitions:
         type: integer
         format: int32
         example: 1
-      imagePath:
-        type: string
   experience:
     type: object
     required:
