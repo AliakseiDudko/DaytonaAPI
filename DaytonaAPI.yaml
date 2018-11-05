@@ -26,6 +26,8 @@ tags:
     description: 'Everything about countries'
   - name: topic
     description: 'Everything about topics'
+  - name: onboarding
+    description: 'Everything about onboarding process'
     
 paths:
   /identities:
@@ -48,7 +50,7 @@ paths:
           # Describe response schema
         400:
           description: 'Bad request'
-  /identity/{userId}:
+  /identities/{userId}:
     get:
       tags:
         - identity
@@ -758,8 +760,8 @@ paths:
     get:
       tags:
         - topic
-      summary: 'Get a list of topics'
-      description: 'Get a list of localized topics'
+      summary: 'Gets a list of topics'
+      description: 'Gets a list of localized topics'
       operationId: getTopics
       parameters:
         - name: Accept-Language
@@ -781,6 +783,27 @@ paths:
             items:
               $ref: '#/definitions/topic'
         400:
+          description: 'Not found'
+  /onboarding/{userId}:
+    get:
+      tags:
+        - onboarding
+      summary: 'Gets current user''s onborading status'
+      description: 'Gets current user''s onborading status'
+      operationId: getOnboardingStatus
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object # This type needs to be specified. We may return current step and score items here.
+        404:
           description: 'Not found'
 definitions:
   userInfo:
