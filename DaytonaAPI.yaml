@@ -11,7 +11,7 @@ basePath: /AliakseiDudko/DaytonaAPI/1.0
 
 tags:
   - name: identity
-    description: 'Everything about users''s identification. It may be a standalone API'
+    description: 'Everything about users''s identification. It will be probably a standalone API'
   - name: user
     description: 'Everything about user accounts'
   - name: shop
@@ -48,6 +48,27 @@ paths:
           # Describe response schema
         400:
           description: 'Bad request'
+  /identity/{userId}:
+    get:
+      tags:
+        - identity
+      summary: 'Gets information about a user'
+      description: 'Gets information about a user from IdentityServer'
+      operationId: getIdentity
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/userInfo'
+        404:
+          description: 'Not found'
   /users/{userId}/profile:
     post:
       tags:
@@ -762,6 +783,38 @@ paths:
         400:
           description: 'Not found'
 definitions:
+  userInfo:
+    type: object
+    required:
+      - id
+      - firstName
+      - lastName
+      - email
+      - countryId
+      - roleId
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      firstName:
+        type: string
+        example: 'John'
+      lastName:
+        type: string
+        example: 'Doe'
+      email:
+        type: string
+        format: email
+        example: 'john.doe@daytona.com'
+      countryId:
+        type: integer
+        format: int32
+        example: 1
+      roleId:
+        type: integer
+        format: int32
+        example: 1
   createIdentityModel:
     type: object
     required:
@@ -797,9 +850,6 @@ definitions:
     type: object
     required:
       - id
-      - firstName
-      - lastName
-      - email
       - title
       - city
       - stateId
@@ -810,16 +860,6 @@ definitions:
         type: integer
         format: int32
         example: 1
-      firstName:
-        type: string
-        example: 'John'
-      lastName:
-        type: string
-        example: 'Doe'
-      email:
-        type: string
-        format: email
-        example: 'john.doe@daytona.com'
       title:
         type: string
         example: 'Auto Specialist'
