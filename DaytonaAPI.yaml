@@ -333,7 +333,7 @@ paths:
         404:
           description: 'Not found'
   /users/{userId}/degrees:
-    post:
+    put:
       tags:
         - degree
       summary: 'Creates a user''s degree'
