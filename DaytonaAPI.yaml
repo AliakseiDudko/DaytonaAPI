@@ -239,9 +239,7 @@ paths:
         200:
           description: 'OK'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/shop'
+            $ref: '#/definitions/shop'
         404:
           description: 'Not found'
     put:
@@ -386,6 +384,32 @@ paths:
             items:
               $ref: '#/definitions/degree'
   /users/{userId}/degrees/{degreeId}:
+    get:
+      tags:
+        - degree
+      summary: 'Gets a record about a user''s degree'
+      description: 'Gets a record about a user''s degree'
+      operationId: getDegree
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+        - name: degreeId
+          in: path
+          description: 'Id of degree'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/degree'
+        404:
+          description: 'Not found'
     put:
       tags:
         - degree
@@ -498,6 +522,32 @@ paths:
             items:
               $ref: '#/definitions/certificate'
   /users/{userId}/certificates/{certificateId}:
+    get:
+      tags:
+        - certificate
+      summary: 'Gets a record about a user''s certificate'
+      description: 'Gets a record about a user''s certificate'
+      operationId: getCertificate
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+        - name: certificateId
+          in: path
+          description: 'Id of certificate'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/certificate'
+        404:
+          description: 'Not found'
     put:
       tags:
         - certificate
@@ -603,6 +653,32 @@ paths:
             items:
               $ref: '#/definitions/experience'
   /users/{userId}/experiences/{experienceId}:
+    get:
+      tags:
+        - experience
+      summary: 'Gets a record about a user''s experience'
+      description: 'Gets a record about a user''s experience'
+      operationId: getExperience
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of shop''s owner'
+          required: true
+          type: integer
+          format: int32
+        - name: experienceId
+          in: path
+          description: 'Id of experience'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/experience'
+        404:
+          description: 'Not found'
     put:
       tags:
         - experience
