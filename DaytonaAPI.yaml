@@ -1477,29 +1477,10 @@ definitions:
             enum: ['post', 'get', 'put', 'delete']
   onboardingInfoShop:
     type: object
-    required:
-      - model
-      - totalReputation
-      - currentReputationItems
+    #required:
+    #  - model
+    #  - totalReputation
+    #  - currentReputationItems
     properties:
       model:
         $ref: '#/definitions/shop'
-      reputation:
-        type: integer
-        format: int32
-        example: 100
-      reputationItems:
-        type: array
-        items:
-          $ref: '#/definitions/reputationItem'
-      _links:
-        type: array
-        items:
-          $ref: '#/definitions/link'
-        example:
-          [
-            self : { href : "/onboarding/1/shop" },
-            uploadImage : { href : "/user/1/shops/1/image", method : "post" },
-            saveShop : { href : "/user/1/shops", method : "post" },
-            next : { href : "/onboarding/1/profile" }
-          ]
