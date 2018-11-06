@@ -784,7 +784,7 @@ paths:
           description: 'A list of topics followed a by user was successfully updated'
         400:
           description: 'Bad request'
-  /users/{userId}/onboarding/current:
+  /onboarding/{id}/{stepName}:
     get:
       tags:
         - onboarding
@@ -792,20 +792,22 @@ paths:
       description: 'Gets current user''s onborading state'
       operationId: getOnboardingState
       parameters:
-        - name: userId
+        - name: id
           in: path
-          description: 'Id of user'
+          description: 'Id of boarding process'
           required: true
           type: integer
           format: int32
+        - name: stepName
+          in: path
+          description: 'Name of boarding step'
+          required: true
+          type: string
       responses:
         200:
           description: 'OK'
           schema:
-            $ref: '#/definitions/onboardingInfo'
-          # links:
-          #  GetNextStep:
-          #    operationId: getOnboardingState
+            $ref: '#/definitions/onboardingInfoShop'
         404:
           description: 'Not found'
   /countries:
@@ -1416,9 +1418,6 @@ definitions:
       - totalReputation
       - currentReputationItems
     properties:
-      stepName:
-        type: string
-        example: 'onboarding-us-shop'
       model:
         type: object
       reputation:
@@ -1476,3 +1475,31 @@ definitions:
           method:
             type: string
             enum: ['post', 'get', 'put', 'delete']
+  onboardingInfoShop:
+    type: object
+    required:
+      - model
+      - totalReputation
+      - currentReputationItems
+    properties:
+      model:
+        $ref: '#/definitions/shop'
+      reputation:
+        type: integer
+        format: int32
+        example: 100
+      reputationItems:
+        type: array
+        items:
+          $ref: '#/definitions/reputationItem'
+      _links:
+        type: array
+        items:
+          $ref: '#/definitions/link'
+        example:
+          [
+            self : { href : "/onboarding/1/shop" },
+            uploadImage : { href : "/user/1/shops/1/image", method : "post" },
+            saveShop : { href : "/user/1/shops", method : "post" },
+            next : { href : "/onboarding/1/profile" }
+          ]
