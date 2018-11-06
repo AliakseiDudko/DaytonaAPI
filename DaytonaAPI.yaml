@@ -807,7 +807,7 @@ paths:
         200:
           description: 'OK'
           schema:
-            $ref: '#/definitions/onboardingInfoShop'
+            $ref: '#/definitions/onboardingInfoProfile'
         404:
           description: 'Not found'
   /countries:
@@ -1477,10 +1477,10 @@ definitions:
             enum: ['post', 'get', 'put', 'delete']
   onboardingInfoShop:
     type: object
-    #required:
-    #  - model
-    #  - totalReputation
-    #  - currentReputationItems
+    required:
+      - model
+      - totalReputation
+      - currentReputationItems
     properties:
       model:
         $ref: '#/definitions/shop'
@@ -1498,8 +1498,36 @@ definitions:
           $ref: '#/definitions/link'
         example:
           [
-            self : { href : "/onboarding/1/shop" },
+            self : { href : "/onboarding/1/onboarding-us-shop" },
             uploadImage : { href : "/user/1/shops/1/image", method : "post" },
-            saveShop : { href : "/user/1/shops", method : "post" },
-            next : { href : "/onboarding/1/profile" }
+            saveShop : { href : "/user/1/shops/1", method : "post" },
+            next : { href : "/onboarding/1/onboarding-us-profile" }
+          ]
+  onboardingInfoProfile:
+    type: object
+    required:
+      - model
+      - totalReputation
+      - currentReputationItems
+    properties:
+      model:
+        $ref: '#/definitions/profile'
+      reputation:
+        type: integer
+        format: int32
+        example: 100
+      reputationItems:
+        type: array
+        items:
+          $ref: '#/definitions/reputationItem'
+      _links:
+        type: array
+        items:
+          $ref: '#/definitions/link'
+        example:
+          [
+            self : { href : "/onboarding/1/onboarding-us-profile" },
+            uploadImage : { href : "/user/1/profile/image", method : "post" },
+            saveProfile : { href : "/user/1/profile", method : "post" },
+            next : { href : "/onboarding/1/onboarding-us-degrees" }
           ]
