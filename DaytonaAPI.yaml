@@ -50,13 +50,13 @@ paths:
           # Describe response schema
         400:
           description: 'Bad request'
-  /identities/{userId}:
+  /user/{userId}:
     get:
       tags:
-        - identity
+        - user
       summary: 'Gets information about a user'
-      description: 'Gets information about a user from IdentityServer'
-      operationId: getIdentity
+      description: 'Gets read-only information about a user'
+      operationId: getUser
       parameters:
         - name: userId
           in: path
@@ -803,6 +803,9 @@ paths:
           description: 'OK'
           schema:
             $ref: '#/definitions/onboardingInfo'
+          # links:
+          #  GetNextStep:
+          #    operationId: getOnboardingState
         404:
           description: 'Not found'
   /countries:
@@ -1431,14 +1434,9 @@ definitions:
   reputationItem:
     type: object
     required:
-      - viewId
       - description
       - points
     properties:
-      viewId:
-        type: integer
-        format: int32
-        example: 1
       description:
         type: string
         example: 'Reputation'
@@ -1465,8 +1463,14 @@ definitions:
   link:
     type: object
     required:
-      - href
+      - name
     properties:
-      href:
-        type: string
-        example: '/'
+      property:
+        type: object
+        properties:
+          href:
+            type: string
+            example: '/'
+          method:
+            type: string
+            enum: ['post', 'get', 'put', 'delete']
