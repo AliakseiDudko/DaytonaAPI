@@ -784,6 +784,27 @@ paths:
           description: 'A list of topics followed a by user was successfully updated'
         400:
           description: 'Bad request'
+  /users/{userId}/onboarding/current:
+    get:
+      tags:
+        - onboarding
+      summary: 'Gets current user''s onborading state'
+      description: 'Gets current user''s onborading state'
+      operationId: getOnboardingState
+      parameters:
+        - name: userId
+          in: path
+          description: 'Id of user'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/onboardingInfo'
+        404:
+          description: 'Not found'
   /countries:
     get:
       tags:
@@ -859,27 +880,6 @@ paths:
             items:
               $ref: '#/definitions/topic'
         400:
-          description: 'Not found'
-  /onboarding/{userId}:
-    get:
-      tags:
-        - onboarding
-      summary: 'Gets current user''s onborading status'
-      description: 'Gets current user''s onborading status'
-      operationId: getOnboardingStatus
-      parameters:
-        - name: userId
-          in: path
-          description: 'Id of user'
-          required: true
-          type: integer
-          format: int32
-      responses:
-        200:
-          description: 'OK'
-          schema:
-            $ref: '#/definitions/onboardingInfo' # This type needs to be specified. We may return current step and score items
-        404:
           description: 'Not found'
 definitions:
   userInfo:
@@ -1403,8 +1403,16 @@ definitions:
         example: 1
   onboardingInfo:
     type: object
+    required:
+      - stepName
+      - model
+      - totalReputation
+      - currentReputationItems
     properties:
-      viewId:
+      stepName:
+        type: string
+        example: 'onboarding-us-shop'
+      model:
         type: integer
         format: int32
         example: 1
@@ -1416,6 +1424,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/reputationItem'
+      _links:
+        type: array
+        items:
+          $ref: '#/definitions/link'
   reputationItem:
     type: object
     required:
@@ -1450,3 +1462,10 @@ definitions:
       name: 
         type: string
         example: 'value'
+  link:
+    type: object
+    required:
+      - href
+    properties:
+      href:
+        type: string
