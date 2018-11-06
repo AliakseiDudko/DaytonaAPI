@@ -1416,9 +1416,7 @@ definitions:
         type: string
         example: 'onboarding-us-shop'
       model:
-        type: integer
-        format: int32
-        example: 1
+        type: object
       reputation:
         type: integer
         format: int32
@@ -1465,7 +1463,7 @@ definitions:
     required:
       - name
     properties:
-      property:
+      name:
         type: object
         properties:
           href:
