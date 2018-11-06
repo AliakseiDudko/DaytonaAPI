@@ -885,43 +885,6 @@ paths:
         400:
           description: 'Not found'
 definitions:
-  userInfo:
-    type: object
-    required:
-      - id
-      - firstName
-      - lastName
-      - email
-      - status
-      - countryId
-      - roleId
-    properties:
-      id:
-        type: integer
-        format: int32
-        example: 1
-      firstName:
-        type: string
-        example: 'John'
-      lastName:
-        type: string
-        example: 'Doe'
-      email:
-        type: string
-        format: email
-        example: 'john.doe@daytona.com'
-      status:
-        type: string
-        enum: [onBoarding, active]
-        example: 'onBoarding'
-      countryId:
-        type: integer
-        format: int32
-        example: 1
-      roleId:
-        type: integer
-        format: int32
-        example: 1
   createIdentityModel:
     type: object
     required:
@@ -953,6 +916,47 @@ definitions:
         type: integer
         format: int32
         example: 1
+  userInfo:
+    type: object
+    required:
+      - id
+      - firstName
+      - lastName
+      - email
+      - status
+      - countryId
+      - roleId
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      firstName:
+        type: string
+        example: 'John'
+      lastName:
+        type: string
+        example: 'Doe'
+      email:
+        type: string
+        format: email
+        example: 'john.doe@daytona.com'
+      status:
+        type: string
+        enum: ['onBoarding', 'active']
+        example: 'onBoarding'
+      countryId:
+        type: integer
+        format: int32
+        example: 1
+      roleId:
+        type: integer
+        format: int32
+        example: 1
+      _links:
+        type: array
+        items:
+          $ref: '#/definitions/link'
   profile:
     type: object
     required:
