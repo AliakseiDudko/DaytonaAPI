@@ -662,7 +662,7 @@ paths:
       parameters:
         - name: userId
           in: path
-          description: 'Id of shop''s owner'
+          description: 'Id of user'
           required: true
           type: integer
           format: int32
@@ -889,6 +889,7 @@ definitions:
       - firstName
       - lastName
       - email
+      - status
       - countryId
       - roleId
     properties:
@@ -906,6 +907,10 @@ definitions:
         type: string
         format: email
         example: 'john.doe@daytona.com'
+      status:
+        type: string
+        enum: [onBoarding, active]
+        example: 'onBoarding'
       countryId:
         type: integer
         format: int32
