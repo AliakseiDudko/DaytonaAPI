@@ -333,7 +333,7 @@ paths:
         404:
           description: 'Not found'
   /users/{userId}/degrees:
-    put:
+    post:
       tags:
         - degree
       summary: 'Creates a user''s degree'
@@ -802,7 +802,7 @@ paths:
         200:
           description: 'OK'
           schema:
-            type: object # This type needs to be specified. We may return current step and score items here.
+            $ref: '#/definitions/onboardingInfo' # This type needs to be specified. We may return current step and score items
         404:
           description: 'Not found'
 definitions:
@@ -1320,6 +1320,42 @@ definitions:
         type: integer
         format: int32
         example: 1
+  onboardingInfo:
+    type: object
+    properties:
+      viewId:
+        type: integer
+        format: int32
+        example: 1
+      reputation:
+        type: integer
+        format: int32
+        example: 100
+      reputationItems:
+        type: array
+        items:
+          $ref: '#/definitions/reputationItem'
+  reputationItem:
+    type: object
+    required:
+      - viewId
+      - description
+      - points
+    properties:
+      viewId:
+        type: integer
+        format: int32
+        example: 1
+      description:
+        type: string
+        example: 'Reputation'
+      filled:
+        type: boolean
+        example: true
+      points:
+        type: integer
+        format: int32
+        example: 100
   keyValue:
     type: object
     required:
