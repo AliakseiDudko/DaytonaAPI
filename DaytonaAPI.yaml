@@ -1559,7 +1559,7 @@ definitions:
           [
             self: { href: "/onboarding/1/onboarding-us-degrees", method: "get" },
             addModel: { href: "/users/1/degrees", method: "post" },
-            editModel: { href: "/users/1/degrees/1", method: "put" }
+            editModel: { href: "/users/1/degrees/1", method: "put" },
             pref: { href: "/onboarding/1/onboarding-us-profile", method: "get" },
             next: { href: "/onboarding/1/onboarding-us-certificates", method: "get" }
           ]
