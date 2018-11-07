@@ -810,7 +810,7 @@ paths:
             $ref: '#/definitions/onboardingInfo'
         404:
           description: 'Not found'
-  /onboarding/{id}/onboarding-us-shop:
+  /onboarding/{id}/onboardingusshop:
     get:
       tags:
         - onboarding
