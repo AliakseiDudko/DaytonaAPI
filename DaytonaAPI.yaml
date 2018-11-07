@@ -784,33 +784,33 @@ paths:
           description: 'A list of topics followed a by user was successfully updated'
         400:
           description: 'Bad request'
-  /onboarding/{id}/{stepName}:
-    get:
-      tags:
-        - onboarding
-      summary: 'Gets current user''s onborading state'
-      description: 'Gets current user''s onborading state'
-      operationId: getOnboardingState
-      parameters:
-        - name: id
-          in: path
-          description: 'Id of boarding process'
-          required: true
-          type: integer
-          format: int32
-        - name: stepName
-          in: path
-          description: 'Name of boarding step'
-          required: true
-          type: string
-      responses:
-        200:
-          description: 'OK'
-          schema:
-            $ref: '#/definitions/onboardingInfo'
-        404:
-          description: 'Not found'
-  /onboarding/{id}/onboardingusshop:
+  #/onboarding/{id}/{stepName}:
+  #  get:
+  #    tags:
+  #      - onboarding
+  #    summary: 'Gets current user''s onborading state'
+  #    description: 'Gets current user''s onborading state'
+  #    operationId: getOnboardingState
+  #    parameters:
+  #      - name: id
+  #        in: path
+  #        description: 'Id of boarding process'
+  #        required: true
+  #        type: integer
+  #        format: int32
+  #      - name: stepName
+  #        in: path
+  #        description: 'Name of boarding step'
+  #        required: true
+  #        type: string
+  #    responses:
+  #      200:
+  #        description: 'OK'
+  #        schema:
+  #          $ref: '#/definitions/onboardingInfo'
+  #      404:
+  #        description: 'Not found'
+  /onboarding/{id}/onboarding-us-shop:
     get:
       tags:
         - onboarding
