@@ -807,7 +807,7 @@ paths:
         200:
           description: 'OK'
           schema:
-            $ref: '#/definitions/onboardingInfoCertificates'
+            $ref: '#/definitions/onboardingInfoExperiences'
         404:
           description: 'Not found'
   /countries:
@@ -1561,7 +1561,7 @@ definitions:
             createModel: { href: "/users/1/degrees", method: "post" },
             updateModel: { href: "/users/1/degrees/1", method: "put" },
             deleteModel: { href: "/users/1/degrees/1", method: "delete" },
-            pref: { href: "/onboarding/1/onboarding-us-profile", method: "get" },
+            prev: { href: "/onboarding/1/onboarding-us-profile", method: "get" },
             next: { href: "/onboarding/1/onboarding-us-certificates", method: "get" }
           ]
   onboardingInfoCertificates:
@@ -1593,6 +1593,37 @@ definitions:
             createModel: { href: "/users/1/certificates", method: "post" },
             updateModel: { href: "/users/1/certificates/1", method: "put" },
             deleteModel: { href: "/users/1/certificates/1", method: "delete" },
-            pref: { href: "/onboarding/1/onboarding-us-degrees", method: "get" },
+            prev: { href: "/onboarding/1/onboarding-us-degrees", method: "get" },
             next: { href: "/onboarding/1/onboarding-us-experiences", method: "get" }
+          ]
+  onboardingInfoExperiences:
+    type: object
+    required:
+      - model
+      - totalReputation
+      - currentReputationItems
+    properties:
+      model:
+        type: array
+        items:
+          $ref: '#/definitions/experience'
+      reputation:
+        type: integer
+        format: int32
+        example: 100
+      reputationItems:
+        type: array
+        items:
+          $ref: '#/definitions/reputationItem'
+      _links:
+        type: array
+        items:
+          $ref: '#/definitions/link'
+        example:
+          [
+            self: { href: "/onboarding/1/onboarding-us-experiences", method: "get" },
+            createModel: { href: "/users/1/experiences", method: "post" },
+            updateModel: { href: "/users/1/certificates/1", method: "put" },
+            deleteModel: { href: "/users/1/certificates/1", method: "delete" },
+            prev: { href: "/onboarding/1/onboarding-us-certificates", method: "get" }
           ]
