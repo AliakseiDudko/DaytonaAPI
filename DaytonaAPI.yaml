@@ -794,7 +794,7 @@ paths:
   #    parameters:
   #      - name: id
   #        in: path
-  #        description: 'Id of boarding process'
+  #        description: 'Id of onboarding process'
   #        required: true
   #        type: integer
   #        format: int32
@@ -820,7 +820,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: 'Id of boarding process'
+          description: 'Id of onboarding process'
           required: true
           type: integer
           format: int32
@@ -841,7 +841,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: 'Id of boarding process'
+          description: 'Id of onboarding process'
           required: true
           type: integer
           format: int32
@@ -862,7 +862,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: 'Id of boarding process'
+          description: 'Id of onboarding process'
           required: true
           type: integer
           format: int32
@@ -883,7 +883,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: 'Id of boarding process'
+          description: 'Id of onboarding process'
           required: true
           type: integer
           format: int32
@@ -904,7 +904,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: 'Id of boarding process'
+          description: 'Id of onboarding process'
           required: true
           type: integer
           format: int32
@@ -912,7 +912,7 @@ paths:
         200:
           description: 'OK'
           schema:
-            $ref: '#/definitions/onboardingInfoCertificates'
+            $ref: '#/definitions/onboardingInfoExperiences'
         404:
           description: 'Not found'
   /countries:
