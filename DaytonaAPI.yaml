@@ -1409,31 +1409,31 @@ definitions:
         type: integer
         example: 2015
         format: int32
-  degreeModel:
-    type: object
-    required:
-      - typeId
-      - school
-      - faculty
-      - graduatedOn
-      - imagePath
-    properties:
-      typeId:
-        type: integer
-        format: int32
-        example: 1
-      school:
-        type: string
-        example: 'High School of Vehicle Reparation'
-      faculty:
-        type: string
-        example: 'Department of Car Reparation'
-      graduatedOn:
-        type: integer
-        format: int32
-        example: 2015
-      imagePath:
-        type: string
+  # degreeModel:
+    # type: object
+    # required:
+      # - typeId
+      # - school
+      # - faculty
+      # - graduatedOn
+      # - imagePath
+    # properties:
+      # typeId:
+        # type: integer
+        # format: int32
+        # example: 1
+      # school:
+        # type: string
+        # example: 'High School of Vehicle Reparation'
+      # faculty:
+        # type: string
+        # example: 'Department of Car Reparation'
+      # graduatedOn:
+        # type: integer
+        # format: int32
+        # example: 2015
+      # imagePath:
+        # type: string
   certificate:
     type: object
     required:
@@ -1469,36 +1469,36 @@ definitions:
         type: integer
         format: int32
         example: 1
-  certificateModel:
-    type: object
-    required:
-      - name
-      - level
-      - startedYear
-      - startedMonth
-    properties:
-      name:
-        type: string
-        example: 'Ford Reparation Certificate'
-      level:
-        type: string
-        example: '80'
-      startedYear:
-        type: integer
-        format: int32
-        example: 2011
-      startedMonth:
-        type: integer
-        format: int32
-        example: 1
-      expriredYear:
-        type: integer
-        format: int32
-        example: 2019
-      expriredMonth:
-        type: integer
-        format: int32
-        example: 1
+  # certificateModel:
+    # type: object
+    # required:
+      # - name
+      # - level
+      # - startedYear
+      # - startedMonth
+    # properties:
+      # name:
+        # type: string
+        # example: 'Ford Reparation Certificate'
+      # level:
+        # type: string
+        # example: '80'
+      # startedYear:
+        # type: integer
+        # format: int32
+        # example: 2011
+      # startedMonth:
+        # type: integer
+        # format: int32
+        # example: 1
+      # expriredYear:
+        # type: integer
+        # format: int32
+        # example: 2019
+      # expriredMonth:
+        # type: integer
+        # format: int32
+        # example: 1
   experience:
     type: object
     required:
