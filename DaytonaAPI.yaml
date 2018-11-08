@@ -22,8 +22,8 @@ tags:
     description: 'Everything about users'' education certificate'
   - name: experience
     description: 'Everything about users'' work experience'
-  - name: country
-    description: 'Everything about countries'
+  - name: lookup
+    description: 'Everything about lookup resources'
   - name: topic
     description: 'Everything about topics'
   - name: onboarding
@@ -939,7 +939,7 @@ paths:
   /countries:
     get:
       tags:
-        - country
+        - lookup
       summary: 'Gets a list of countries'
       description: 'Gets a list of localized countries'
       operationId: getCountries
@@ -959,7 +959,7 @@ paths:
   /countries/{countryId}/states:
     get:
       tags:
-        - country
+        - lookup
       summary: 'Gets a list of states of the country'
       description: 'Gets a list of localized states of the country'
       operationId: getStates
@@ -984,6 +984,86 @@ paths:
               $ref: '#/definitions/keyValue'
         404:
           description: 'Not found'
+  /timezones:
+    get:
+      tags:
+        - lookup
+      summary: 'Gets a list of supported time zones'
+      description: 'Gets a list of localized supported time zones'
+      operationId: getTimeZones
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'Users'' language'
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/keyValue'
+  /timeformats:
+    get:
+      tags:
+        - lookup
+      summary: 'Gets a list of supported time formats'
+      description: 'Gets a list of localized supported time formats'
+      operationId: getTimeFormats
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'Users'' language'
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/keyValue'
+  /dateformats:
+    get:
+      tags:
+        - lookup
+      summary: 'Gets a list of supported date formats'
+      description: 'Gets a list of localized supported date formats'
+      operationId: getDateFormats
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'Users'' language'
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/keyValue'
+  /languages:
+    get:
+      tags:
+        - lookup
+      summary: 'Gets a list of supported languages'
+      description: 'Gets a list of localized supported languages'
+      operationId: getLanguages
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'Users'' language'
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/keyValue'
   /topics/{countryId}:
     get:
       tags:
