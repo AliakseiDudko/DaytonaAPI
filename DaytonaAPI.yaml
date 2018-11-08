@@ -1765,6 +1765,7 @@ definitions:
         type: array
         items:
           type: integer
+          example: 1
       reputation:
         type: integer
         format: int32
