@@ -1067,7 +1067,7 @@ paths:
   /topics/{countryId}:
     get:
       tags:
-        - topic
+        - loca
       summary: 'Gets a list of topics'
       description: 'Gets a list of localized topics'
       operationId: getTopics
