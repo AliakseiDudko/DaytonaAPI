@@ -915,6 +915,27 @@ paths:
             $ref: '#/definitions/onboardingInfoExperiences'
         404:
           description: 'Not found'
+  /onboarding/{id}/onboarding-us-topics:
+    get:
+      tags:
+        - onboarding
+      summary: 'Gets current user''s onborading state'
+      description: 'Gets current user''s onborading state'
+      operationId: getOnboardingStateTopics
+      parameters:
+        - name: id
+          in: path
+          description: 'Id of onboarding process'
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/onboardingInfoTopics'
+        404:
+          description: 'Not found'
   /countries:
     get:
       tags:
@@ -1730,5 +1751,35 @@ definitions:
             createModel: { href: "/users/1/experiences", method: "post" },
             updateModel: { href: "/users/1/experiences/1", method: "put" },
             deleteModel: { href: "/users/1/experiences/1", method: "delete" },
-            prev: { href: "/onboarding/1/onboarding-us-certificates", method: "get" }
+            prev: { href: "/onboarding/1/onboarding-us-certificates", method: "get" },
+            prev: { href: "/onboarding/1/onboarding-us-topics", method: "get" }
+          ]
+  onboardingInfoTopics:
+    type: object
+    required:
+      - model
+      - totalReputation
+      - currentReputationItems
+    properties:
+      model:
+        type: array
+        items:
+          type: integer
+      reputation:
+        type: integer
+        format: int32
+        example: 100
+      reputationItems:
+        type: array
+        items:
+          $ref: '#/definitions/reputationItem'
+      _links:
+        type: array
+        items:
+          $ref: '#/definitions/link'
+        example:
+          [
+            self: { href: "/onboarding/1/onboarding-us-topics", method: "get" },
+            updateModel: { href: "/users/1/topics", method: "put" },
+            prev: { href: "/onboarding/1/onboarding-us-experiences", method: "get" }
           ]
