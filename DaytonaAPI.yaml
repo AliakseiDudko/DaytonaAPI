@@ -103,57 +103,7 @@ paths:
                         $ref: '#/definitions/profile'
                 '400':
                     description: 'Bad request'
-    '/users/{userId}/profile/image':
-        get:
-            tags:
-                - user
-            summary: 'Gets a profile image'
-            description: 'Gets a profile image'
-            operationId: getProfileImage
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        format: binary
-                        type: string
-                '404':
-                    description: 'Not found'
-        post:
-            tags:
-                - user
-            summary: 'Uploads a profile image'
-            description: 'Uploads a profile image'
-            operationId: uploadProfileImage
-            consumes:
-                - multipart/form-data
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: imageData
-                    in: formData
-                    description: 'The image to upload'
-                    required: true
-                    type: file
-            responses:
-                '201':
-                    description: 'Profile image was successfully uploaded'
-                '400':
-                    description: 'Bad request'
-        delete: {}
+
     '/users/{userId}/degrees':
         get:
             tags:
@@ -918,28 +868,6 @@ paths:
                 required: true
                 type: integer
                 format: int32
-    '/users/{userId}/onboarding/4':
-        get:
-            tags:
-                - onboarding
-            summary: 'Gets current user''s onborading state'
-            description: 'Gets current user''s onborading state'
-            operationId: getOnboardingStateCertificates
-            parameters:
-                -
-                    name: id
-                    in: path
-                    description: 'Id of onboarding process'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/onboardingInfoCertificates'
-                '404':
-                    description: 'Not found'
     '/users/{userId}/shop/image':
         get:
             tags:
@@ -949,7 +877,7 @@ paths:
             operationId: getShopImage
             parameters:
                 -
-                    name: userId
+                    name: userId0
                     in: path
                     description: 'Id of user'
                     required: true
@@ -973,7 +901,7 @@ paths:
                 - multipart/form-data
             parameters:
                 -
-                    name: userId
+                    name: userId0
                     in: path
                     description: 'Id of user'
                     required: true
@@ -1000,45 +928,7 @@ paths:
                 in: path
                 required: true
                 type: integer
-    '/users/{userId}/onboarding/2':
-        get:
-            tags:
-                - onboarding
-            summary: 'Gets current user''s onborading state'
-            description: 'Gets current user''s onborading state'
-            operationId: getOnboardingStateProfile
-            produces:
-                - application/json
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/onboardingInfoProfile'
-                    examples:
-                        application/json: "{\n    \"model\": {\n        \"id\": 72,\n        \"title\": \"some text\",\n        \"city\": \"some text\",\n        \"stateId\": 22,\n        \"bio\": \"some text\",\n        \"socialNetworks\": [\n            {\n                \"socialNetworkId\": 33,\n                \"account\": \"some text\"\n            },\n            {\n                \"socialNetworkId\": 91,\n                \"account\": \"some text\"\n            }\n        ]\n    },\n    \"reputation\": {\n        \"totalPoints\": 10,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 5,\n                \"key\": \"Add a profile image\"\n            },\n            {\n                \"checked\": false,\n                \"points\": 5,\n                \"key\": \"Complete description\"\n            }\n        ],\n        \"videoUrl\": \"urlToVideoGuide\"\n    },\n    \"stepNumber\": 2\n}"
-                '404':
-                    description: 'Not found'
-        put:
-            tags:
-                - onboarding
-            summary: 'Updates current user''s onboarding'
-            description: 'Updates current user''s onboarding'
-            operationId: updateOnboardingProfileProgress
-            consumes:
-                - application/json
-            produces:
-                - application/json
-            parameters:
-                -
-                    name: body
-                    in: body
-                    description: 'Requst model to update onboarding process'
-                    required: true
-                    schema:
-                        $ref: '#/definitions/onboardingInfoProfile'
-            responses:
-                '204':
-                    description: 'Onboarding status was updated'
+
     '/users/{userId}/onboarding/1':
         get:
             tags:
@@ -1133,72 +1023,6 @@ paths:
                 required: true
                 type: integer
                 format: int32
-    '/users/{userId}/onboarding/3':
-        get:
-            tags:
-                - onboarding
-            summary: 'Gets current user''s onborading state'
-            description: 'Gets current user''s onborading state'
-            operationId: getOnboardingStateDegrees
-            parameters:
-                -
-                    name: id
-                    in: path
-                    description: 'Id of onboarding process'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/onboardingInfoDegrees'
-                '404':
-                    description: 'Not found'
-    '/users/{userId}/onboarding/5':
-        get:
-            tags:
-                - onboarding
-            summary: 'Gets current user''s onborading state'
-            description: 'Gets current user''s onborading state'
-            operationId: getOnboardingStateExperiences
-            parameters:
-                -
-                    name: id
-                    in: path
-                    description: 'Id of onboarding process'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/onboardingInfoExperiences'
-                '404':
-                    description: 'Not found'
-    '/users/{userId}/onboarding/6':
-        get:
-            tags:
-                - onboarding
-            summary: 'Gets current user''s onborading state'
-            description: 'Gets current user''s onborading state'
-            operationId: getOnboardingStateTopics
-            parameters:
-                -
-                    name: id
-                    in: path
-                    description: 'Id of onboarding process'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/onboardingInfoTopics'
-                '404':
-                    description: 'Not found'
     '/users/{userId}/shop':
         get:
             tags:
@@ -1582,22 +1406,6 @@ definitions:
             value:
                 type: string
                 example: value
-    onboardingInfoCertificates:
-        required:
-            - model
-            - stepNumber
-        type: object
-        properties:
-            model:
-                type: array
-                items:
-                    $ref: '#/definitions/certificate'
-            reputation:
-                $ref: '#/definitions/OnboardingReputation'
-                description: '"Build your reputation" component data'
-            stepNumber:
-                description: 'number of this step in onboarding process'
-                type: integer
     onboardingInfoDegrees:
         required:
             - model
