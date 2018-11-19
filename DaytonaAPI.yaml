@@ -484,23 +484,7 @@ paths:
                 in: path
                 required: true
                 type: integer
-    '/users/{userId}/onboarding/2':
-        get:
-            tags:
-                - onboarding
-            summary: 'Get state of user''s onboarding step'
-            operationId: getOnboardingStateProfile
-            produces:
-                - application/json
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/OnboardingInfoProfile'
-                    examples:
-                        application/json: "{\n    \"model\": {\n        \"id\": 72,\n        \"title\": \"some text\",\n        \"city\": \"some text\",\n        \"stateId\": 22,\n        \"bio\": \"some text\",\n        \"socialNetworks\": [\n            {\n                \"socialNetworkId\": 33,\n                \"account\": \"some text\"\n            },\n            {\n                \"socialNetworkId\": 91,\n                \"account\": \"some text\"\n            }\n        ]\n    },\n    \"reputation\": {\n        \"totalPoints\": 10,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 5,\n                \"key\": \"Add a profile image\"\n            },\n            {\n                \"checked\": false,\n                \"points\": 5,\n                \"key\": \"Complete description\"\n            }\n        ],\n        \"videoUrl\": \"urlToVideoGuide\"\n    },\n    \"stepNumber\": 2\n}"
-                '404':
-                    description: 'Not found'
+
     '/users/{userId}/onboarding/1':
         get:
             tags:
@@ -1237,6 +1221,14 @@ paths:
             summary: 'Get user''s onboarding state'
             produces:
                 - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of a user'
+                    required: true
+                    type: integer
+                    format: int32
             responses:
                 '200':
                     description: 'representation of user''s onboarding process'
@@ -1286,13 +1278,6 @@ paths:
                 - multipart/form-data
             parameters:
                 -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-                -
                     name: imageData
                     in: formData
                     description: 'The image to upload'
@@ -1323,14 +1308,6 @@ paths:
             operationId: uploadProfileImage
             consumes:
                 - multipart/form-data
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
                 -
                     name: imageData
                     in: formData
