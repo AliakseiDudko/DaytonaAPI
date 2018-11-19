@@ -7,26 +7,6 @@ basePath: /AliakseiDudko/DaytonaAPI/1.0
 schemes:
     - https
 paths:
-    /identities:
-        post:
-            tags:
-                - identity
-            summary: 'Creates a new user''s identity'
-            description: 'Creates a new user''s identity. Identitity''s provider part'
-            operationId: createIdenitity
-            parameters:
-                -
-                    name: createIdentityModel
-                    in: body
-                    description: 'Reqired data model to create a new identity'
-                    required: true
-                    schema:
-                        $ref: '#/definitions/createIdentityModel'
-            responses:
-                '201':
-                    description: 'A new user''s account was succesfully created'
-                '400':
-                    description: 'Bad request'
     '/users/{userId}/profile':
         get:
             tags:
@@ -34,6 +14,8 @@ paths:
             summary: 'Gets a user profile'
             description: 'Gets a user profile'
             operationId: getProfile
+            produces:
+                - application/json
             parameters:
                 -
                     name: userId
@@ -46,7 +28,9 @@ paths:
                 '200':
                     description: OK
                     schema:
-                        $ref: '#/definitions/profile'
+                        $ref: '#/definitions/Profile'
+                    examples:
+                        application/json: "{\n    \"id\": 1,\n    \"city\": \"New York\",\n    \"stateId\": 1,\n    \"bio\": \"Bio Description\",\n    \"socialNetworkAccounts\": [\n        {\n            \"id\": 1,\n            \"account\": \"useraccountname\"\n        },\n        {\n            \"id\": 2,\n            \"account\": null\n        },\n        {\n            \"id\": 3,\n            \"account\": \"useraccountname\"\n        }\n    ],\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@daytona.com\",\n    \"imageUrl\": \"http://image.com\"\n}"
                 '404':
                     description: 'Not found'
         put:
@@ -69,41 +53,12 @@ paths:
                     description: 'Data to update'
                     required: true
                     schema:
-                        $ref: '#/definitions/profileRequest'
+                        $ref: '#/definitions/Profile'
             responses:
                 '204':
                     description: 'A user profile was successfully updated'
                 '400':
                     description: 'Bad request'
-        post:
-            tags:
-                - user
-            summary: 'Creates a user profile'
-            description: 'Creates a user profile with additional information'
-            operationId: createProfile
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: createProfileModel
-                    in: body
-                    description: 'Data to create'
-                    required: true
-                    schema:
-                        $ref: '#/definitions/createProfileModel'
-            responses:
-                '201':
-                    description: 'A user profile was successfully created'
-                    schema:
-                        $ref: '#/definitions/profile'
-                '400':
-                    description: 'Bad request'
-
     '/users/{userId}/degrees':
         get:
             tags:
@@ -111,6 +66,8 @@ paths:
             summary: 'Gets a list of user''s degrees'
             description: 'Gets a list of user''s degrees'
             operationId: getDegrees
+            produces:
+                - application/json
             parameters:
                 -
                     name: userId
@@ -125,7 +82,9 @@ paths:
                     schema:
                         type: array
                         items:
-                            $ref: '#/definitions/degree'
+                            $ref: '#/definitions/Degree'
+                    examples:
+                        application/json: "[\n    {\n    \"id\": 1,\n    \"typeId\": 1,\n    \"school\": \"Auto College of Malibu\",\n    \"fieldOfStudy\": \"Tractor\",\n    \"graduatedOn\": 2010,\n    \"fileName\": \"auto college.jpg\"\n    }\n]"
         post:
             tags:
                 - degree
@@ -134,6 +93,8 @@ paths:
             operationId: createDegree
             consumes:
                 - multipart/form-data
+            produces:
+                - application/json
             parameters:
                 -
                     name: userId
@@ -158,7 +119,9 @@ paths:
                 '201':
                     description: 'A new record about user''s degree was successfully created'
                     schema:
-                        $ref: '#/definitions/degree'
+                        $ref: '#/definitions/Degree'
+                    examples:
+                        application/json: "    {\n    \"id\": 1,\n    \"typeId\": 1,\n    \"school\": \"Auto College of Malibu\",\n    \"fieldOfStudy\": \"Tractor\",\n    \"graduatedOn\": 2010,\n    \"fileName\": \"auto college.jpg\"\n    }"
                 '400':
                     description: 'Bad request'
     '/users/{userId}/degrees/{degreeId}':
@@ -168,6 +131,8 @@ paths:
             summary: 'Gets a record about a user''s degree'
             description: 'Gets a record about a user''s degree'
             operationId: getDegree
+            produces:
+                - application/json
             parameters:
                 -
                     name: userId
@@ -187,7 +152,9 @@ paths:
                 '200':
                     description: OK
                     schema:
-                        $ref: '#/definitions/degree'
+                        $ref: '#/definitions/Degree'
+                    examples:
+                        application/json: "    {\n    \"id\": 1,\n    \"typeId\": 1,\n    \"school\": \"Auto College of Malibu\",\n    \"fieldOfStudy\": \"Tractor\",\n    \"graduatedOn\": 2010,\n    \"fileName\": \"auto college.jpg\"\n    }"
                 '404':
                     description: 'Not found'
         put:
@@ -261,6 +228,8 @@ paths:
             summary: 'Gets a list of user''s certificates'
             description: 'Gets a list of user''s certificates'
             operationId: getCertificates
+            produces:
+                - application/json
             parameters:
                 -
                     name: userId
@@ -275,7 +244,9 @@ paths:
                     schema:
                         type: array
                         items:
-                            $ref: '#/definitions/certificate'
+                            $ref: '#/definitions/Certificate'
+                    examples:
+                        application/json: "[\n    {\n    \"id\": 1,\n    \"name\": \"ASE Certificate\",\n    \"startedMonth\": \"2018-01\",\n    \"expiredMonth\": \"\",\n    \"doesNotExpire\": true,\n    \"levelId\": 1,\n    \"fileName\": \"ase certificate.jpg\"\n    }\n]"
         post:
             tags:
                 - certificate
@@ -284,6 +255,8 @@ paths:
             operationId: createCertificate
             consumes:
                 - multipart/form-data
+            produces:
+                - application/json
             parameters:
                 -
                     name: userId
@@ -308,7 +281,9 @@ paths:
                 '201':
                     description: 'A new record about certificate obtained by user was successfully create'
                     schema:
-                        $ref: '#/definitions/certificate'
+                        $ref: '#/definitions/Certificate'
+                    examples:
+                        application/json: "{\n    \"id\": 1,\n    \"name\": \"ASE Certificate\",\n    \"startedMonth\": \"2018-01\",\n    \"expiredMonth\": \"\",\n    \"doesNotExpire\": true,\n    \"levelId\": 1,\n    \"fileName\": \"ase certificate.jpg\"\n}"
                 '400':
                     description: 'Bad request'
     '/users/{userId}/certificates/{certificateId}':
@@ -318,6 +293,8 @@ paths:
             summary: 'Gets a record about a user''s certificate'
             description: 'Gets a record about a user''s certificate'
             operationId: getCertificate
+            produces:
+                - application/json
             parameters:
                 -
                     name: userId
@@ -337,7 +314,9 @@ paths:
                 '200':
                     description: OK
                     schema:
-                        $ref: '#/definitions/certificate'
+                        $ref: '#/definitions/Certificate'
+                    examples:
+                        application/json: "{\n    \"id\": 1,\n    \"name\": \"ASE Certificate\",\n    \"startedMonth\": \"2018-01\",\n    \"expiredMonth\": \"\",\n    \"doesNotExpire\": true,\n    \"levelId\": 1,\n    \"fileName\": \"ase certificate.jpg\"\n}"
                 '404':
                     description: 'Not found'
         put:
@@ -404,141 +383,6 @@ paths:
             responses:
                 '204':
                     description: 'A record about user''s certificate was successfully deleted'
-    '/users/{userId}/experiences':
-        get:
-            tags:
-                - experience
-            summary: 'Gets a list of user''s experiences'
-            description: 'Gets a list of user''s experiences'
-            operationId: getExperiences
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        type: array
-                        items:
-                            $ref: '#/definitions/experience'
-        post:
-            tags:
-                - experience
-            summary: 'Creates a user''s experience'
-            description: 'Creates a new record about user''s experience'
-            operationId: createExperience
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: experienceModel
-                    in: body
-                    description: 'Required data model to create a new record about user''s experience'
-                    schema:
-                        $ref: '#/definitions/experienceModel'
-            responses:
-                '201':
-                    description: 'A new record about user''s experience was successfully created'
-                    schema:
-                        $ref: '#/definitions/experience'
-                '400':
-                    description: 'Bad request'
-    '/users/{userId}/experiences/{experienceId}':
-        get:
-            tags:
-                - experience
-            summary: 'Gets a record about a user''s experience'
-            description: 'Gets a record about a user''s experience'
-            operationId: getExperience
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: experienceId
-                    in: path
-                    description: 'Id of experience'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/experience'
-                '404':
-                    description: 'Not found'
-        put:
-            tags:
-                - experience
-            summary: 'Updates a record about a user''s experience'
-            description: 'Updates a record about a user''s experience'
-            operationId: updateExperience
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: experienceId
-                    in: path
-                    description: 'Id of experience to update'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: experienceModel
-                    in: body
-                    description: 'Data to update'
-                    required: true
-                    schema:
-                        $ref: '#/definitions/experienceModel'
-            responses:
-                '204':
-                    description: 'A record about user''s experience was successfully updated'
-                '400':
-                    description: 'Bad request'
-        delete:
-            tags:
-                - experience
-            summary: 'Deletes a record about user''s experience'
-            description: 'Deletes a record about user''s experience'
-            operationId: deleteExperience
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of user'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: experienceId
-                    in: path
-                    description: 'Id of experience to delete'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '204':
-                    description: 'A record about user''s experience was successfully deleted'
     '/users/{userId}/topics':
         get:
             tags:
@@ -595,128 +439,6 @@ paths:
                     description: 'A list of topics followed a by user was successfully updated'
                 '400':
                     description: 'Bad request'
-    /timezones:
-        get:
-            tags:
-                - lookup
-            summary: 'Gets a list of supported time zones'
-            description: 'Gets a list of localized supported time zones'
-            operationId: getTimeZones
-            parameters:
-                -
-                    name: Accept-Language
-                    in: header
-                    description: 'Users'' language'
-                    required: true
-                    type: string
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        type: array
-                        items:
-                            $ref: '#/definitions/keyValue'
-    /timeformats:
-        get:
-            tags:
-                - lookup
-            summary: 'Gets a list of supported time formats'
-            description: 'Gets a list of localized supported time formats'
-            operationId: getTimeFormats
-            produces:
-                - application/json
-            parameters:
-                -
-                    name: Accept-Language
-                    in: header
-                    description: 'Users'' language'
-                    required: true
-                    type: string
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        type: array
-                        items:
-                            $ref: '#/definitions/keyValue'
-                    examples:
-                        application/json: "[\n    {\n        \"id\": 82,\n        \"value\": \"some text\"\n    },\n    {\n        \"id\": 79,\n        \"value\": \"some text\"\n    }\n]"
-    /dateformats:
-        get:
-            tags:
-                - lookup
-            summary: 'Gets a list of supported date formats'
-            description: 'Gets a list of localized supported date formats'
-            operationId: getDateFormats
-            parameters:
-                -
-                    name: Accept-Language
-                    in: header
-                    description: 'Users'' language'
-                    required: true
-                    type: string
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        type: array
-                        items:
-                            $ref: '#/definitions/keyValue'
-    /languages:
-        get:
-            tags:
-                - lookup
-            summary: 'Get a list of supported languages'
-            description: 'Get a list of supported languages'
-            operationId: getLanguages
-            produces:
-                - application/json
-            parameters:
-                -
-                    name: Accept-Language
-                    in: header
-                    description: 'Users'' language'
-                    required: true
-                    type: string
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        type: array
-                        items:
-                            $ref: '#/definitions/Language'
-                    examples:
-                        application/json: "[\n    {\n        \"id\": 1,\n        \"tag\": \"en-US\",\n        \"name\": \"English (United States)\",\n        \"nativeName\": \"English (United States)\"\n    },\n    {\n        \"id\": 2,\n        \"tag\": \"es\",\n        \"name\": \"Spanish\",\n        \"nativeName\": \"español\"\n    }\n]"
-    '/topics/{countryId}':
-        get:
-            tags:
-                - lookup
-            summary: 'Gets a list of topics'
-            description: 'Gets a list of localized topics'
-            operationId: getTopics
-            parameters:
-                -
-                    name: Accept-Language
-                    in: header
-                    description: 'User''s language'
-                    required: true
-                    type: string
-                -
-                    name: countryId
-                    in: path
-                    description: 'Id of user''s country'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        type: array
-                        items:
-                            $ref: '#/definitions/topic'
-                '400':
-                    description: 'Not found'
     '/users/{userId}':
         get:
             tags:
@@ -740,9 +462,212 @@ paths:
                     schema:
                         $ref: '#/definitions/UserInfo'
                     examples:
-                        application/json: "{\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\",\n    \"email\": \"agent.smith@examle.com\",\n    \"status\": \"ONBOARDING\",\n    \"countryId\": 1,\n    \"roleId\": 1\n}"
+                        application/json: "{\r\n    \"id\": 1,\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"status\": \"ONBOARDING\",\r\n    \"countryId\": 1,\r\n    \"role\": {\r\n        \"id\": 1,\r\n        \"value\": \"Shop Owner\"\r\n    },\r\n    \"language\": \"en-US\",\r\n    \"imageUrl\": \"http://image.com/user.jpg\"\r\n}"
                 '404':
                     description: 'Not found'
+    '/users/{userId}/onboarding/4':
+        get:
+            tags:
+                - onboarding
+            summary: 'Get state of user''s onboarding step'
+            operationId: getOnboardingStateCertificates
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/onboardingInfoCertificates'
+                '404':
+                    description: 'Not found'
+        parameters:
+            -
+                name: userId
+                in: path
+                required: true
+                type: integer
+    '/users/{userId}/onboarding/2':
+        get:
+            tags:
+                - onboarding
+            summary: 'Get state of user''s onboarding step'
+            operationId: getOnboardingStateProfile
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/OnboardingInfoProfile'
+                    examples:
+                        application/json: "{\n    \"model\": {\n        \"id\": 72,\n        \"title\": \"some text\",\n        \"city\": \"some text\",\n        \"stateId\": 22,\n        \"bio\": \"some text\",\n        \"socialNetworks\": [\n            {\n                \"socialNetworkId\": 33,\n                \"account\": \"some text\"\n            },\n            {\n                \"socialNetworkId\": 91,\n                \"account\": \"some text\"\n            }\n        ]\n    },\n    \"reputation\": {\n        \"totalPoints\": 10,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 5,\n                \"key\": \"Add a profile image\"\n            },\n            {\n                \"checked\": false,\n                \"points\": 5,\n                \"key\": \"Complete description\"\n            }\n        ],\n        \"videoUrl\": \"urlToVideoGuide\"\n    },\n    \"stepNumber\": 2\n}"
+                '404':
+                    description: 'Not found'
+    '/users/{userId}/onboarding/1':
+        get:
+            tags:
+                - onboarding
+            summary: 'Get state of user''s onboarding step'
+            description: 'This is a copy of /users/{userId}/onboarding/{stepId} step added to facilitate mocking on UI'
+            operationId: getOnboardingStateShop
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/OnboardingInfoShop'
+                    examples:
+                        application/json: "{\n    \"model\": {\n        \"id\": 14,\n        \"name\": \"BELAZ\",\n        \"establishedYear\": 1963,\n        \"typeId\": 1,\n        \"street\": \"street1\",\n        \"city\": \"Minsk\",\n        \"zipCode\": \"220110\",\n        \"stateId\": 7,\n        \"employeeCount\": 3000,\n        \"description\": \"belaz market\",\n        \"url\": \"http://belaz.by\"\n    },\n    \"reputation\": {\n        \"totalPoints\": 52,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 48,\n                \"name\": \"asdfasdf\",\n                \"id\": 1\n            },\n            {\n                \"checked\": false,\n                \"points\": 92,\n                \"name\": \"some title\",\n                \"id\": 2\n            }\n        ],\n        \"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\n    }\n}"
+                '404':
+                    description: 'Not found'
+        parameters:
+            -
+                name: userId
+                in: path
+                description: 'Id of a user'
+                required: true
+                type: integer
+                format: int32
+    '/users/{userId}/onboarding/{stepId}':
+        get:
+            tags:
+                - onboarding
+            summary: 'Get state of user''s onboarding step'
+            operationId: getOnboardingState
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/OnboardingStepInfo'
+                    examples:
+                        application/json: "{\n    \"model\": {},\n    \"reputation\": {}\n}"
+                '404':
+                    description: 'Not found'
+        parameters:
+            -
+                name: userId
+                in: path
+                description: 'Id of a user'
+                required: true
+                type: integer
+                format: int32
+            -
+                name: stepId
+                in: path
+                description: 'Id of step'
+                required: true
+                type: integer
+                format: int32
+    '/users/{userId}/onboarding/3':
+        get:
+            tags:
+                - onboarding
+            summary: 'Get state of user''s onboarding step'
+            operationId: getOnboardingStateDegrees
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/OnboardingInfoDegrees'
+                '404':
+                    description: 'Not found'
+        parameters:
+            -
+                name: userId
+                in: path
+                required: true
+                type: integer
+    '/users/{userId}/onboarding/5':
+        get:
+            tags:
+                - onboarding
+            summary: 'Get state of user''s onboarding step'
+            operationId: getOnboardingStateExperiences
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/onboardingInfoExperiences'
+                '404':
+                    description: 'Not found'
+        parameters:
+            -
+                name: userId
+                in: path
+                required: true
+                type: integer
+    '/users/{userId}/onboarding/6':
+        get:
+            tags:
+                - onboarding
+            summary: 'Get state of user''s onboarding step'
+            operationId: getOnboardingStateTopics
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/OnboardingInfoTopics'
+                '404':
+                    description: 'Not found'
+        parameters:
+            -
+                name: userId
+                in: path
+                required: true
+                type: integer
+    '/users/{userId}/shop':
+        get:
+            tags:
+                - shop
+            summary: 'Gets a user''s shop'
+            description: 'Gets a user''s shop'
+            operationId: getShop
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of shop''s owner'
+                    required: true
+                    type: integer
+                    format: int32
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Shop'
+                    examples:
+                        application/json: "{\n    \"id\": 1,\n    \"name\": \"Auto Reparation Shop\",\n    \"establishedYear\": 1992,\n    \"typeId\": 1,\n    \"street\": \"Main street\",\n    \"city\": \"Malibu\",\n    \"zipCode\": \"8523654\",\n    \"stateId\": 1,\n    \"employeeCount\": 12,\n    \"description\": \"#1 Auto Reparation Shop in Malibu\",\n    \"url\": \"http://shop.com\",\n    \"imageUrl\": \"http://image.com/shop.jpg\",\n    \"bayCount\": 2\n}"
+                '404':
+                    description: 'Not found'
+        put:
+            tags:
+                - shop
+            summary: 'Updates a user''s shop'
+            description: 'Updates a user''s shop'
+            operationId: updateShop
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of shop''s owner'
+                    required: true
+                    type: integer
+                    format: int32
+                -
+                    name: shopModel
+                    in: body
+                    description: 'Required data model to update a user''s shop'
+                    required: true
+                    schema:
+                        $ref: '#/definitions/Shop'
+            responses:
+                '204':
+                    description: 'A shop was successfully updated'
+                '400':
+                    description: 'Bad request'
     /translations:
         get:
             tags:
@@ -777,35 +702,202 @@ paths:
                 description: 'whole or partial translation key'
                 type: string
             -
-                name: lang
+                name: language
                 in: query
                 description: 'one of the languages supported by the application with format like "en" or "en-US"'
                 type: string
-    '/shoptypes/{countryId}':
+    '/users/{userId}/workexperiences':
         get:
             tags:
-                - lookup
-            summary: 'Get a list of shop types for a given country'
-            operationId: getShopTypesByCountry
+                - wokrExperience
+            summary: 'Gets a list of user''s experiences'
+            description: 'Gets a list of user''s experiences'
+            operationId: getExperiences
             produces:
                 - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of user'
+                    required: true
+                    type: integer
+                    format: int32
             responses:
                 '200':
-                    description: 'Provides a list of shop types for given country id'
+                    description: OK
                     schema:
                         type: array
                         items:
-                            $ref: '#/definitions/ShopType'
+                            $ref: '#/definitions/WorkExperience'
                     examples:
-                        application/json: "[\n{\"id\": 1, \"name\": \"Tires \"},\n{\"id\": 2, \"name\": \"Oil Change\"},\n{\"id\": 3, \"name\": \"Glass\"},\n{\"id\": 4, \"name\": \"Mechanical Repair\"},\n{\"id\": 5, \"name\": \"Collision Repair\"},\n{\"id\": 6, \"name\": \"Full Service\"},\n{\"id\": 7, \"name\": \"Brake & Transmission\"},\n{\"id\": 8, \"name\": \"Emissions\"},\n{\"id\": 9, \"name\": \"Paint & Body\"}\n]"
-        parameters:
-            -
-                name: countryId
-                in: path
-                description: 'id of a country supported by the application'
-                required: true
-                type: integer
-    /countries:
+                        application/json: "[\n    {\n    \"id\": 1,\n    \"title\": \"Senior Technician\",\n    \"company\": \"Best Auto Repair Shop\",\n    \"startedMonth\": \"2004-01\",\n    \"expiredMonth\": \"2014-05\",\n    \"city\": \"Malibu\",\n    \"stateId\": 1,\n    \"isCurrentWork\": false\n    }\n]"
+        post:
+            tags:
+                - experience
+                - wokrExperience
+            summary: 'Creates a user''s experience'
+            description: 'Creates a new record about user''s work experience'
+            operationId: createExperience
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of user'
+                    required: true
+                    type: integer
+                    format: int32
+                -
+                    name: experienceModel
+                    in: body
+                    description: 'Required data model to create a new record about user''s experience'
+                    required: true
+                    schema:
+                        $ref: '#/definitions/WorkExperience'
+            responses:
+                '201':
+                    description: 'A new record about user''s experience was successfully created'
+                    schema:
+                        $ref: '#/definitions/WorkExperience'
+                    examples:
+                        application/json: "    {\n    \"id\": 1,\n    \"title\": \"Senior Technician\",\n    \"company\": \"Best Auto Repair Shop\",\n    \"startedMonth\": \"2004-01\",\n    \"expiredMonth\": \"2014-05\",\n    \"city\": \"Malibu\",\n    \"stateId\": 1,\n    \"isCurrentWork\": false\n    }"
+                '400':
+                    description: 'Bad request'
+    '/users/{userId}/workexperiences/{experienceId}':
+        get:
+            tags:
+                - wokrExperience
+            summary: 'Gets a record about a user''s experience'
+            description: 'Gets a record about a user''s experience'
+            operationId: getWorkExperience
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of user'
+                    required: true
+                    type: integer
+                    format: int32
+                -
+                    name: experienceId
+                    in: path
+                    description: 'Id of experience'
+                    required: true
+                    type: integer
+                    format: int32
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/WorkExperience'
+                    examples:
+                        application/json: "    {\n    \"id\": 1,\n    \"title\": \"Senior Technician\",\n    \"company\": \"Best Auto Repair Shop\",\n    \"startedMonth\": \"2004-01\",\n    \"expiredMonth\": \"2014-05\",\n    \"city\": \"Malibu\",\n    \"stateId\": 1,\n    \"isCurrentWork\": false\n    }"
+                '404':
+                    description: 'Not found'
+        put:
+            tags:
+                - wokrExperience
+            summary: 'Updates a record about a user''s experience'
+            description: 'Updates a record about a user''s experience'
+            operationId: updateExperience
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of user'
+                    required: true
+                    type: integer
+                    format: int32
+                -
+                    name: experienceId
+                    in: path
+                    description: 'Id of experience to update'
+                    required: true
+                    type: integer
+                    format: int32
+                -
+                    name: experienceModel
+                    in: body
+                    description: 'Data to update'
+                    required: true
+                    schema:
+                        $ref: '#/definitions/WorkExperience'
+            responses:
+                '204':
+                    description: 'A record about user''s experience was successfully updated'
+                '400':
+                    description: 'Bad request'
+        delete:
+            tags:
+                - wokrExperience
+            summary: 'Deletes a record about user''s experience'
+            description: 'Deletes a record about user''s experience'
+            operationId: deleteExperience
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of user'
+                    required: true
+                    type: integer
+                    format: int32
+                -
+                    name: experienceId
+                    in: path
+                    description: 'Id of experience to delete'
+                    required: true
+                    type: integer
+                    format: int32
+            responses:
+                '204':
+                    description: 'A record about user''s experience was successfully deleted'
+    '/users/{userId}/localization':
+        get:
+            tags:
+                - user
+            summary: 'Gets localization settings of current user'
+            description: 'Gets localization settings of current user'
+            operationId: getLocalization
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of a user'
+                    required: true
+                    type: integer
+            responses:
+                '200':
+                    description: 'Returns localization settings of current user'
+                    schema:
+                        $ref: '#/definitions/Localization'
+                    examples:
+                        application/json: "{\n    \"languageId\": 1,\n    \"dateFormatId\": 1,\n    \"timeFormatId\": 1,\n    \"timeZoneId\": 1\n}"
+                '404':
+                    description: 'Not found'
+        put:
+            tags:
+                - user
+            summary: 'Updates localization settings of current user'
+            description: 'Updates localization settings of a user'
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of a user'
+                    required: true
+                    type: integer
+            responses:
+                '204':
+                    description: 'Localization settings were successfully updated'
+                '400':
+                    description: 'Bad request'
+    /lookup/countries:
         get:
             tags:
                 - lookup
@@ -822,7 +914,7 @@ paths:
                             $ref: '#/definitions/Country'
                     examples:
                         application/json: "[\n{\n    \"id\": 1,\n    \"code\": \"US\",\n    \"name\": \"United States\"\n}\n]"
-    '/countries/{countryId}/subdivisions':
+    '/lookup/countries/{countryId}/subdivisions':
         get:
             tags:
                 - lookup
@@ -848,9 +940,301 @@ paths:
                 in: path
                 required: true
                 type: integer
+    /lookup/dateformats:
+        get:
+            tags:
+                - lookup
+            summary: 'Gets a list of supported date formats'
+            description: 'Gets a list of localized supported date formats'
+            operationId: getDateFormats
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: Accept-Language
+                    in: header
+                    description: 'Users'' language'
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/NamedValue'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"value\": \"MM/DD/YYYY\",\n        \"name\": \"Month Day Year\"\n    }\n]"
+    '/lookup/degreetypes/{countryId}':
+        get:
+            tags:
+                - lookup
+            summary: 'Gets a list  of degree types valid in particular country'
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: countryId
+                    in: path
+                    description: 'Id of a country'
+                    required: true
+                    type: integer
+                    format: int32
+            responses:
+                '200':
+                    description: 'List of degree types'
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/IdValue'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"value\": \"AOS\"\n    }\n]"
+                '404':
+                    description: 'No degree types were found'
+    /lookup/languages:
+        get:
+            tags:
+                - lookup
+            summary: 'Get a list of supported languages'
+            description: 'Get a list of supported languages'
+            operationId: getLanguages
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: Accept-Language
+                    in: header
+                    description: 'Users'' language'
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Language'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"tag\": \"en-US\",\n        \"name\": \"English (United States)\",\n        \"nativeName\": \"English (United States)\"\n    },\n    {\n        \"id\": 2,\n        \"tag\": \"es\",\n        \"name\": \"Spanish\",\n        \"nativeName\": \"español\"\n    }\n]"
+    '/lookup/shoptypes/{countryId}':
+        get:
+            tags:
+                - lookup
+            summary: 'Get a list of shop types for a given country'
+            operationId: getShopTypesByCountry
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: 'Provides a list of shop types for given country id'
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/ShopType'
+                    examples:
+                        application/json: "[\n{\"id\": 1, \"name\": \"Tires \"},\n{\"id\": 2, \"name\": \"Oil Change\"},\n{\"id\": 3, \"name\": \"Glass\"},\n{\"id\": 4, \"name\": \"Mechanical Repair\"},\n{\"id\": 5, \"name\": \"Collision Repair\"},\n{\"id\": 6, \"name\": \"Full Service\"},\n{\"id\": 7, \"name\": \"Brake & Transmission\"},\n{\"id\": 8, \"name\": \"Emissions\"},\n{\"id\": 9, \"name\": \"Paint & Body\"}\n]"
+        parameters:
+            -
+                name: countryId
+                in: path
+                description: 'id of a country supported by the application'
+                required: true
+                type: integer
+    /lookup/socialnetworks:
+        get:
+            description: 'Get a list of supported social networks'
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: 'Return collection of SocialNetwork items'
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/SocialNetwork'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"name\": \"facebook\",\n        \"url\": \"http://facebook.com\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"instagram\",\n        \"url\": \"http://instagram.com\"\n    },\n    {\n        \"id\": 3,\n        \"name\": \"twitter\",\n        \"url\": \"http://twitter.com\"\n    }\n    \n]"
+    /lookup/timeformats:
+        get:
+            tags:
+                - lookup
+            summary: 'Gets a list of supported time formats'
+            description: 'Gets a list of localized supported time formats'
+            operationId: getTimeFormats
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: Accept-Language
+                    in: header
+                    description: 'Users'' language'
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/NamedValue'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"value\": \"12h\",\n        \"name\": \"12 - Hour Format\"\n    }\n]"
+    /lookup/timezones:
+        get:
+            tags:
+                - lookup
+            summary: 'Gets a list of supported time zones'
+            description: 'Gets a list of localized supported time zones'
+            operationId: getTimeZones
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: Accept-Language
+                    in: header
+                    description: 'Users'' language'
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/NamedValue'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"value\": \"UTC−10:00\",\n        \"name\": \"Mexico\"\n    }\n]"
+    '/lookup/topics/{countryId}':
+        get:
+            tags:
+                - lookup
+            summary: 'Gets a list of topics'
+            description: 'Gets a list of localized topics'
+            operationId: getTopics
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: Accept-Language
+                    in: header
+                    description: 'User''s language'
+                    required: true
+                    type: string
+                -
+                    name: countryId
+                    in: path
+                    description: 'Id of user''s country'
+                    required: true
+                    type: integer
+                    format: int32
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/TopicGroup'
+                    examples:
+                        application/json: "[\n    {\n    \"id\": 1,\n    \"name\": \"Vehicle Systems\",\n    \"topics\": [\n        {\n            \"id\": 1,\n            \"value\": \"Audi\"\n        }\n    ]\n    }\n]"
+                '400':
+                    description: 'Not found'
+    '/lookup/certificatelevels/{countryId}':
+        get:
+            tags:
+                - lookup
+            summary: 'Gets a list  of certificate levels valid in particular country'
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: countryId
+                    in: path
+                    description: 'Id of a country'
+                    required: true
+                    type: integer
+                    format: int32
+            responses:
+                '200':
+                    description: 'List of certificate levels'
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/IdValue'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"value\": \"ASE\"\n    }\n]"
+                '404':
+                    description: 'No certificate levels were found'
+    /lookup/notificationpreferences:
+        get:
+            tags:
+                - lookup
+            summary: 'Gets a list of available notification preference items'
+            operationId: getAllNotificationPreferences
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: 'List of notification preferences'
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/IdValue'
+                    examples:
+                        application/json: "[\n    {\n        \"id\": 1,\n        \"value\": \"Daily Digest\"\n    },\n        {\n        \"id\": 2,\n        \"value\": \"New Post\"\n    },\n        {\n        \"id\": 3,\n        \"value\": \"New Comment\"\n    },\n        {\n        \"id\": 4,\n        \"value\": \"New Follower\"\n    },\n        {\n        \"id\": 5,\n        \"value\": \"Daily Digest\"\n    },\n        {\n        \"id\": 6,\n        \"value\": \"Connection Request\"\n    },\n        {\n        \"id\": 7,\n        \"value\": \"New Job Posting\"\n    }\n]"
+                '404':
+                    description: 'Not found'
+    '/users/{userId}/notificationpreferences':
+        get:
+            tags:
+                - lookup
+            summary: 'Get a list of user''s notification preferences'
+            operationId: getUserNotificationPreferences
+            produces:
+                - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of a user'
+                    required: true
+                    type: integer
+            responses:
+                '200':
+                    description: 'List of notification preferences'
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/NotificationPreference'
+                    examples:
+                        application/json: "[\n    {\n    \"id\": 1,\n    \"emailEnabled\": true,\n    \"webEnabled\": false\n    }\n]"
+        put:
+            summary: 'Update user''s notification preferences'
+            operationId: updateNotificationPreferences
+            consumes:
+                - application/json
+            parameters:
+                -
+                    name: userId
+                    in: path
+                    description: 'Id of a user'
+                    required: true
+                    type: integer
+                -
+                    name: body
+                    in: body
+                    required: true
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/NotificationPreference'
+            responses:
+                '204':
+                    description: 'Notification preferences were successfully updated'
+                '400':
+                    description: 'Bad request'
     '/users/{userId}/onboarding':
         get:
-            summary: 'Gets current user''s onboarding state'
+            summary: 'Get user''s onboarding state'
             produces:
                 - application/json
             responses:
@@ -860,38 +1244,39 @@ paths:
                         $ref: '#/definitions/OnboardingInfo'
                     examples:
                         application/json: "{\n    \"steps\": [\n        {\n            \"id\": 1,\n            \"name\": \"onboarding-us-shop\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"onboarding-us-profile\"\n        }\n    ],\n    \"currentStep\": 1\n}"
-        parameters:
-            -
-                name: userId
-                in: path
-                description: 'Id of a user'
-                required: true
-                type: integer
-                format: int32
-    '/users/{userId}/shop/image':
-        get:
+        put:
             tags:
-                - shop
-            summary: 'Gets a shop image'
-            description: 'Gets a shop image'
-            operationId: getShopImage
+                - onboarding
+            summary: 'Completes the onboarding step'
+            description: 'Completes the onboarding step and moves onboarding state to next step'
+            operationId: updateOnboarding
+            consumes:
+                - application/json
+            produces:
+                - application/json
             parameters:
                 -
-                    name: userId0
+                    name: userId
                     in: path
-                    description: 'Id of user'
+                    description: 'Id of a user'
                     required: true
                     type: integer
                     format: int32
+                -
+                    name: body
+                    in: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/OnboardingUpdate'
             responses:
                 '200':
-                    description: OK
+                    description: 'Returns current onboarding info'
                     schema:
-                        format: binary
-                        type: string
-                '404':
-                    description: 'Not found'
-        post:
+                        $ref: '#/definitions/OnboardingInfo'
+                    examples:
+                        application/json: "{\r\n\t\"steps\": [{\r\n\t\t\t\"id\": 1,\r\n\t\t\t\"name\": \"onboarding-us-shop\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": 2,\r\n\t\t\t\"name\": \"onboarding-us-profile\"\r\n\t\t}\r\n\t],\r\n\t\"currentStep\": 2,\r\n\t\"step\": {\r\n\t\t\"model\": {},\r\n\t\t\"reputation\": {\r\n\t\t\t\"totalPoints\": 19,\r\n\t\t\t\"reputationItems\": [{\r\n\t\t\t\t\t\"checked\": true,\r\n\t\t\t\t\t\"points\": 11,\r\n\t\t\t\t\t\"id\": 89,\r\n\t\t\t\t\t\"name\": \"some text\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"checked\": true,\r\n\t\t\t\t\t\"points\": 22,\r\n\t\t\t\t\t\"id\": 29,\r\n\t\t\t\t\t\"name\": \"some text\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\r\n\t\t}\r\n\t}\r\n}"
+    '/users/{userId}/shop/image':
+        put:
             tags:
                 - shop
             summary: 'Uploads a shop''s image'
@@ -901,7 +1286,7 @@ paths:
                 - multipart/form-data
             parameters:
                 -
-                    name: userId0
+                    name: userId
                     in: path
                     description: 'Id of user'
                     required: true
@@ -914,499 +1299,56 @@ paths:
                     required: true
                     type: file
             responses:
-                '201':
+                '204':
                     description: 'Shop image was successfully uploaded'
                 '400':
                     description: 'Bad request'
         delete:
+            summary: 'Deletes a shop''s image'
             responses:
                 '204':
-                    description: 'delete shop image'
+                    description: 'image is successfully deleted'
         parameters:
             -
                 name: userId
                 in: path
                 required: true
                 type: integer
-
-    '/users/{userId}/onboarding/1':
-        get:
-            tags:
-                - onboarding
-            summary: 'Gets current user''s onboarding state'
-            operationId: getOnboardingStateShop
-            produces:
-                - application/json
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/OnboardingInfoShop'
-                    examples:
-                        application/json: "{\n    \"model\": {\n        \"id\": 14,\n        \"name\": \"BELAZ\",\n        \"establishedYear\": 1963,\n        \"typeId\": 1,\n        \"street\": \"street1\",\n        \"city\": \"Minsk\",\n        \"zipCode\": \"220110\",\n        \"stateId\": 7,\n        \"employeeCount\": 3000,\n        \"description\": \"belaz market\",\n        \"url\": \"http://belaz.by\"\n    },\n    \"stepNumber\": 1,\n    \"reputation\": {\n        \"totalPoints\": 52,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 48,\n                \"name\": \"asdfasdf\",\n                \"id\": 1\n            },\n            {\n                \"checked\": false,\n                \"points\": 92,\n                \"name\": \"some title\",\n                \"id\": 2\n            }\n        ],\n        \"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\n    }\n}"
-                '404':
-                    description: 'Not found'
+    '/users/{userId}/profile/image':
         put:
             tags:
-                - onboarding
-            summary: 'Updates current user''s onboarding'
-            description: 'Updates current user''s onboarding'
-            operationId: updateOnboardingShopProgress
+                - user
+            summary: 'Uploads a profile image'
+            description: 'Uploads a profile image'
+            operationId: uploadProfileImage
             consumes:
-                - application/json
-            produces:
-                - application/json
-            parameters:
-                -
-                    name: body
-                    in: body
-                    description: 'Requst model to update onboarding process'
-                    required: true
-                    schema:
-                        $ref: '#/definitions/OnboardingInfoShop'
-            responses:
-                '204':
-                    description: 'Onboarding status was updated'
-                '400':
-                    description: 'bad request'
-        parameters:
-            -
-                name: userId
-                in: path
-                description: 'Id of a user'
-                required: true
-                type: integer
-                format: int32
-    '/users/{userId}/onboarding/{stepId}':
-        get:
-            tags:
-                - onboarding
-            summary: 'Gets current user''s onboarding state'
-            description: 'Gets current user''s onboarding state'
-            operationId: getOnboardingState
-            produces:
-                - application/json
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/OnboardingStepInfo'
-                    examples:
-                        application/json: "{\n    \"model\": {},\n    \"reputation\": {}\n}"
-                '404':
-                    description: 'Not found'
-        put:
-            tags:
-                - onboarding
-            summary: 'Updates current user''s onboarding'
-            description: 'Updates current user''s onboarding'
-            operationId: updateOnboardingProgress
-            consumes:
-                - application/json
-            produces:
-                - application/json
-            responses:
-                '204':
-                    description: 'Onboarding status was updated'
-        parameters:
-            -
-                name: userId
-                in: path
-                description: 'Id of a user'
-                required: true
-                type: integer
-                format: int32
-            -
-                name: stepId
-                in: path
-                description: 'Id of step'
-                required: true
-                type: integer
-                format: int32
-    '/users/{userId}/shop':
-        get:
-            tags:
-                - shop
-            summary: 'Gets a user''s shop'
-            description: 'Gets a user''s shop'
-            operationId: getShop
+                - multipart/form-data
             parameters:
                 -
                     name: userId
                     in: path
-                    description: 'Id of shop''s owner'
-                    required: true
-                    type: integer
-                    format: int32
-            responses:
-                '200':
-                    description: OK
-                    schema:
-                        $ref: '#/definitions/Shop'
-                '404':
-                    description: 'Not found'
-        put:
-            tags:
-                - shop
-            summary: 'Updates a user''s shop'
-            description: 'Updates a user''s shop'
-            operationId: updateShop
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of shop''s owner'
+                    description: 'Id of user'
                     required: true
                     type: integer
                     format: int32
                 -
-                    name: shopModel
-                    in: body
-                    description: 'Required data model to update a user''s shop'
-                    schema:
-                        $ref: '#/definitions/ShopRequest'
+                    name: imageData
+                    in: formData
+                    description: 'The image to upload'
+                    required: true
+                    type: file
             responses:
                 '204':
-                    description: 'A shop was successfully updated'
+                    description: 'Profile image was successfully uploaded'
                 '400':
                     description: 'Bad request'
-        post:
-            tags:
-                - shop
-            summary: 'Updates a user''s shop'
-            description: 'Updates a user''s shop'
-            operationId: createShop
-            consumes:
-                - application/json
-            produces:
-                - application/json
-            parameters:
-                -
-                    name: userId
-                    in: path
-                    description: 'Id of shop''s owner'
-                    required: true
-                    type: integer
-                    format: int32
-                -
-                    name: body
-                    in: body
-                    required: true
-                    schema:
-                        $ref: '#/definitions/ShopRequest'
+        delete:
+            summary: 'Deletes an image which was uploaded previously'
             responses:
-                '201':
-                    description: 'Shop''s image was successfully uploaded.'
-                    schema:
-                        $ref: '#/definitions/Shop'
-                    examples:
-                        application/json: "{\n    \"name\": \"Auto Repair Shop\",\n    \"establishedYear\": 2007,\n    \"typeId\": 1,\n    \"street\": \"The High Street\",\n    \"city\": \"Springfield\",\n    \"zipCode\": \"123123\",\n    \"stateId\": 1,\n    \"employeeCount\": 10,\n    \"description\": \"#1 Auto Repair Shop in Springfield\",\n    \"url\": \"http://shop.com\"\n}"
+                '204':
+                    description: 'Image is successfully deleted'
 definitions:
-    createIdentityModel:
-        required:
-            - firstName
-            - lastName
-            - email
-            - password
-            - countryId
-            - roleId
-        type: object
-        properties:
-            firstName:
-                type: string
-                example: John
-            lastName:
-                type: string
-                example: Doe
-            email:
-                format: email
-                type: string
-                example: john.doe@daytona.com
-            password:
-                format: password
-                type: string
-            countryId:
-                format: int32
-                type: integer
-                example: 1
-            roleId:
-                format: int32
-                type: integer
-                example: 1
-    profile:
-        required:
-            - id
-            - title
-            - city
-            - stateId
-            - bio
-            - socialNetworks
-        type: object
-        properties:
-            id:
-                format: int32
-                type: integer
-                example: 1
-            title:
-                type: string
-                example: 'Auto Specialist'
-            city:
-                type: string
-                example: 'New York'
-            stateId:
-                format: int32
-                type: integer
-                example: 1
-            bio:
-                type: string
-                example: 'John Doe''s bio'
-            socialNetworks:
-                type: array
-                items:
-                    $ref: '#/definitions/socialNetwork'
-    createProfileModel:
-        required:
-            - city
-            - stateId
-            - bio
-            - socialNetworks
-            - localization
-        type: object
-        properties:
-            city:
-                type: string
-                example: 'New York'
-            stateId:
-                format: int32
-                type: integer
-                example: 1
-            bio:
-                type: string
-                example: 'John Doe''s bio'
-            socialNetworks:
-                type: array
-                items:
-                    $ref: '#/definitions/socialNetwork'
-            localization:
-                $ref: '#/definitions/localization'
-    degree:
-        required:
-            - id
-            - typeId
-            - school
-            - faculty
-            - graduatedOn
-        type: object
-        properties:
-            id:
-                format: int32
-                type: integer
-                example: 1
-            typeId:
-                format: int32
-                type: integer
-                example: 1
-            school:
-                type: string
-                example: 'High School of Vehicle Reparation'
-            faculty:
-                type: string
-                example: 'Department of Car Reparation'
-            graduatedOn:
-                format: int32
-                type: integer
-                example: 2015
-    certificate:
-        required:
-            - id
-            - name
-            - level
-            - startedYear
-            - startedMonth
-        type: object
-        properties:
-            id:
-                format: int32
-                type: integer
-                example: 1
-            name:
-                type: string
-                example: 'Ford Reparation Certificate'
-            level:
-                type: string
-                example: '80'
-            startedYear:
-                format: int32
-                type: integer
-                example: 2011
-            startedMonth:
-                format: int32
-                type: integer
-                example: 1
-            expriredYear:
-                format: int32
-                type: integer
-                example: 2019
-            expriredMonth:
-                format: int32
-                type: integer
-                example: 1
-    experience:
-        required:
-            - id
-            - title
-            - company
-            - startedYear
-            - startedMonth
-            - city
-            - stateId
-        type: object
-        properties:
-            id:
-                format: int32
-                type: integer
-                example: 1
-            title:
-                type: string
-                example: 'Automative Technician'
-            company:
-                type: string
-                example: 'ABC Technician'
-            startedYear:
-                format: int32
-                type: integer
-                example: 2011
-            startedMonth:
-                format: int32
-                type: integer
-                example: 1
-            expriredYear:
-                format: int32
-                type: integer
-                example: 2019
-            expriredMonth:
-                format: int32
-                type: integer
-                example: 1
-            city:
-                type: string
-                example: 'New York'
-            stateId:
-                format: int32
-                type: integer
-                example: 1
-    experienceModel:
-        required:
-            - title
-            - company
-            - startedYear
-            - startedMonth
-            - city
-            - stateId
-        type: object
-        properties:
-            title:
-                type: string
-                example: 'Automative Technician'
-            company:
-                type: string
-                example: 'ABC Technician'
-            startedYear:
-                format: int32
-                type: integer
-                example: 2011
-            startedMonth:
-                format: int32
-                type: integer
-                example: 1
-            expriredYear:
-                format: int32
-                type: integer
-                example: 2019
-            expriredMonth:
-                format: int32
-                type: integer
-                example: 1
-            city:
-                type: string
-                example: 'New York'
-            stateId:
-                format: int32
-                type: integer
-                example: 1
-    socialNetwork:
-        required:
-            - socialNetworkId
-            - account
-            - networkName
-        type: object
-        properties:
-            socialNetworkId:
-                format: int32
-                type: integer
-                example: 1
-            account:
-                type: string
-                example: daytonasocial
-            networkName:
-                description: 'social network name'
-                type: string
-        example: "{\n    \"socialNetworkId\": 16,\n    \"account\": \"john.smith\",\n    \"networkName\": \"facebook\"\n}"
-    localization:
-        required:
-            - languageId
-            - dateFormatId
-            - timeFormatId
-            - timeZoneId
-        type: object
-        properties:
-            languageId:
-                format: int32
-                type: integer
-                example: 1
-            dateFormatId:
-                format: int32
-                type: integer
-                example: 1
-            timeFormatId:
-                format: int32
-                type: integer
-                example: 1
-            timeZoneId:
-                format: int32
-                type: integer
-                example: 1
-    topic:
-        required:
-            - id
-            - name
-        type: object
-        properties:
-            id:
-                format: int32
-                type: integer
-                example: 2
-            name:
-                type: string
-                example: 'Topic To Follow'
-            parentId:
-                format: int32
-                type: integer
-                example: 1
-    keyValue:
-        required:
-            - id
-            - value
-        type: object
-        properties:
-            id:
-                format: int32
-                type: integer
-                example: 1
-            value:
-                type: string
-                example: value
-    onboardingInfoDegrees:
+    onboardingInfoCertificates:
         required:
             - model
         type: object
@@ -1414,55 +1356,23 @@ definitions:
             model:
                 type: array
                 items:
-                    $ref: '#/definitions/degree'
+                    $ref: '#/definitions/Certificate'
             reputation:
-                $ref: '#/definitions/OnboardingReputation'
+                $ref: '#/definitions/Reputation'
                 description: '"Build your reputation" component data'
+        example: "{\n    \"model\": [\n        {\n            \"id\": 77332,\n            \"name\": \"ASE Master Technician\",\n            \"levelId\": 3,\n            \"startedMonth\": \"2015-08\",\n            \"expiredMonth\": \"2020-08\",\n            \"doesNotExpire\": false,\n            \"fileName\": \"ase_cert.jpg\"\n        },\n        {\n            \"id\": 77159,\n            \"name\": \"Truck Engines A-Level\",\n            \"levelId\": 13,\n            \"startedMonth\": \"2010-08\",\n            \"expiredMonth\": null,\n            \"doesNotExpire\": true,\n            \"fileName\": null\n        }\n    ],\n    \"reputation\": {\n        \"totalPoints\": 610,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 57,\n                \"id\": 42,\n                \"name\": \"some text\"\n            },\n            {\n                \"checked\": true,\n                \"points\": 68,\n                \"id\": 76,\n                \"name\": \"some text\"\n            }\n        ],\n        \"videoUrl\": \"some text\"\n    }\n}"
     onboardingInfoExperiences:
         required:
             - model
-            - stepNumber
         type: object
         properties:
             model:
                 type: array
                 items:
-                    $ref: '#/definitions/experience'
+                    $ref: '#/definitions/WorkExperience'
             reputation:
-                $ref: '#/definitions/OnboardingReputation'
+                $ref: '#/definitions/Reputation'
                 description: '"Build your reputation" component data'
-            stepNumber:
-                description: 'number of this step in onboarding process'
-                type: integer
-    onboardingInfoProfile:
-        required:
-            - model
-            - stepNumber
-        type: object
-        properties:
-            model:
-                $ref: '#/definitions/profile'
-            reputation:
-                $ref: '#/definitions/OnboardingReputation'
-                description: '"Build your reputation" component data'
-            stepNumber:
-                description: 'number of this step in onboarding process'
-                type: integer
-    onboardingInfoTopics:
-        required:
-            - model
-        type: object
-        properties:
-            model:
-                type: array
-                items:
-                    type: integer
-                    example: 1
-    UiKey:
-        title: 'Root Type for UiKey'
-        description: 'String key uniquely identifying the resource in translation API'
-        type: string
-        example: "{\n    \"id\": 4,\n    \"tag\": \"es-MX\",\n    \"uiKey\": \"iatn.data.language.esmx\",\n    \"name\": \"Spanish (Mexico)\",\n    \"nativeName\": \"español (México)\"\n}"
     Language:
         title: 'Root Type for Language'
         description: 'Value object representing one of the languages supported by the application'
@@ -1572,23 +1482,6 @@ definitions:
                 description: 'human readable name in English'
                 type: string
         example: "{\n    \"checked\": true,\n    \"points\": 92,\n    \"id\": 98,\n    \"name\": \"Add description\"\n}"
-    OnboardingInfo:
-        title: 'Root Type for OnboardingInfo'
-        description: 'The root of the OnboardingInfo type''s schema.'
-        required:
-            - steps
-        type: object
-        properties:
-            steps:
-                description: 'All onboarding workflow steps in order'
-                type: array
-                items:
-                    $ref: '#/definitions/OnboardingStep'
-            currentStep:
-                format: int32
-                description: 'Current step id'
-                type: integer
-        example: "{\n    \"steps\": [],\n    \"currentStep\": 1\n}"
     OnboardingStep:
         title: 'Root Type for OnboardingStep'
         description: 'The root of the OnboardingStep type''s schema.'
@@ -1609,92 +1502,10 @@ definitions:
         properties:
             model: {}
             reputation:
-                type: object
+                $ref: '#/definitions/Reputation'
         example: "{\n    \"model\": {},\n    \"reputation\": {}\n}"
-    profileRequest:
-        required:
-            - firstName
-            - lastName
-            - email
-            - title
-            - city
-            - stateId
-            - bio
-            - socialNetworks
-        type: object
-        properties:
-            firstName:
-                type: string
-                example: John
-            lastName:
-                type: string
-                example: Doe
-            email:
-                format: email
-                type: string
-                example: john.doe@daytona.com
-            title:
-                type: string
-                example: 'Auto Specialist'
-            city:
-                type: string
-                example: 'New York'
-            stateId:
-                format: int32
-                type: integer
-            bio:
-                type: string
-                example: 'John Doe''s bio'
-            socialNetworks:
-                type: array
-                items:
-                    $ref: '#/definitions/socialNetwork'
-    UserInfo:
-        required:
-            - id
-            - firstName
-            - lastName
-            - email
-            - status
-            - countryId
-            - roleId
-            - language
-        type: object
-        properties:
-            id:
-                format: int32
-                type: integer
-                example: 1
-            firstName:
-                type: string
-                example: John
-            lastName:
-                type: string
-                example: Doe
-            email:
-                format: email
-                type: string
-                example: john.doe@daytona.com
-            status:
-                enum:
-                    - ONBOARDING
-                    - ACTIVE
-                type: string
-                example: onBoarding
-            countryId:
-                format: int32
-                type: integer
-                example: 1
-            roleId:
-                format: int32
-                description: 'Role is required to display it on UI'
-                type: integer
-                example: 1
-            language:
-                type: string
     Shop:
         required:
-            - id
             - name
             - establishedYear
             - typeId
@@ -1705,12 +1516,9 @@ definitions:
             - employeeCount
             - description
             - url
+            - bayCount
         type: object
         properties:
-            id:
-                format: int32
-                type: integer
-                example: 1
             name:
                 type: string
                 example: 'Vehicle & Car Service'
@@ -1748,55 +1556,10 @@ definitions:
                 example: 'https://vehiclecarservice.com'
             imageUrl:
                 type: string
-    ShopRequest:
-        required:
-            - name
-            - establishedYear
-            - typeId
-            - street
-            - city
-            - zipCode
-            - stateId
-            - employeeCount
-            - description
-            - url
-        type: object
-        properties:
-            name:
-                type: string
-                example: 'Vehicle & Car Service'
-            establishedYear:
+            bayCount:
                 format: int32
                 type: integer
-                example: 2015
-            typeId:
-                format: int32
-                type: integer
-                example: 1
-            street:
-                type: string
-                example: '5th Avenu, 12'
-            city:
-                type: string
-                example: 'New York'
-            zipCode:
-                type: string
-                example: '111918'
-            stateId:
-                format: int32
-                type: integer
-                example: 1
-            employeeCount:
-                format: int32
-                type: integer
-                example: 50
-            description:
-                type: string
-                example: 'Vehicle & Car Service''s description'
-            url:
-                format: url
-                type: string
-                example: 'https://vehiclecarservice.com'
+        example: "{\n    \"name\": \"Auto Reparation Shop\",\n    \"establishedYear\": 1992,\n    \"typeId\": 1,\n    \"street\": \"Main street\",\n    \"city\": \"Malibu\",\n    \"zipCode\": \"8523654\",\n    \"stateId\": 1,\n    \"employeeCount\": 12,\n    \"description\": \"#1 Auto Reparation Shop in Malibu\",\n    \"url\": \"http://shop.com\",\n    \"imageUrl\": \"http://image.com/shop.jpg\",\n    \"bayCount\": 2\n}"
     OnboardingInfoShop:
         required:
             - model
@@ -1805,11 +1568,297 @@ definitions:
             model:
                 $ref: '#/definitions/Shop'
             reputation:
-                $ref: '#/definitions/OnboardingReputation'
+                $ref: '#/definitions/Reputation'
                 description: '"Build your reputation" component data'
-    OnboardingReputation:
+        example: "{\n    \"model\": {\n        \"name\": \"Mike's Tires\",\n        \"establishedYear\": 1993,\n        \"typeId\": 3,\n        \"street\": \"Main Rd\",\n        \"city\": \"Redding\",\n        \"zipCode\": \"12321\",\n        \"stateId\": 11,\n        \"employeeCount\": 3,\n        \"description\": \"Local shop\",\n        \"url\": \"don't have one\",\n        \"imageUrl\": \"some text\",\n        \"bayCount\": 0\n    },\n    \"reputation\": {\n        \"totalPoints\": 0,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 100,\n                \"id\": 1,\n                \"name\": \"Add a Shop Image\"\n            },\n            {\n                \"checked\": true,\n                \"points\": 100,\n                \"id\": 2,\n                \"name\": \"Complete Shop Details\"\n            }\n        ],\n        \"videoUrl\": \"http://vimeo.com/2398ydyw78y\"\n    }\n}"
+    IdValue:
+        required:
+            - id
+            - value
+        type: object
+        properties:
+            id:
+                format: int32
+                type: integer
+                example: 1
+            value:
+                type: string
+                example: value
+    UserInfo:
+        required:
+            - id
+            - firstName
+            - lastName
+            - status
+            - countryId
+            - role
+            - language
+            - imageUrl
+        type: object
+        properties:
+            id:
+                format: int32
+                type: integer
+                example: 1
+            firstName:
+                type: string
+                example: John
+            lastName:
+                type: string
+                example: Doe
+            status:
+                enum:
+                    - ONBOARDING
+                    - ACTIVE
+                type: string
+                example: onBoarding
+            countryId:
+                format: int32
+                type: integer
+                example: 1
+            role:
+                $ref: '#/definitions/IdValue'
+                description: 'Role object with id and name'
+                example: 1
+            language:
+                type: string
+            imageUrl:
+                type: string
+        example: "{\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"status\": \"ONBOARDING\",\n    \"countryId\": 1,\n    \"role\": {\n        \"id\": 1,\n        \"value\": \"Shop Owner\"\n    },\n    \"language\": \"en-US\",\n    \"imageUrl\": \"http://image.com/user.jpg\"\n}"
+    SocialNetworkAccount:
+        required:
+            - id
+            - account
+        type: object
+        properties:
+            id:
+                format: int32
+                type: integer
+                example: 1
+            account:
+                type: string
+                example: daytonasocial
+        example: "{\n    \"id\": 1,\n    \"account\": \"facebook.account\"\n}"
+    Profile:
+        required:
+            - city
+            - stateId
+            - bio
+            - socialNetworkAccounts
+            - firstName
+            - lastName
+            - email
+            - imageUrl
+        type: object
+        properties:
+            city:
+                type: string
+                example: 'New York'
+            stateId:
+                format: int32
+                description: 'Country subdivision id'
+                type: integer
+                example: 1
+            bio:
+                type: string
+                example: 'John Doe''s bio'
+            socialNetworkAccounts:
+                type: array
+                items:
+                    $ref: '#/definitions/SocialNetworkAccount'
+            firstName:
+                type: string
+            lastName:
+                type: string
+            email:
+                type: string
+            imageUrl:
+                type: string
+        example: "{\n    \"city\": \"New York\",\n    \"stateId\": 1,\n    \"bio\": \"Bio Description\",\n    \"socialNetworkAccounts\": [\n        {\n            \"id\": 1,\n            \"account\": \"useraccountname\"\n        },\n        {\n            \"id\": 2,\n            \"account\": null\n        },\n        {\n            \"id\": 3,\n            \"account\": \"useraccountname\"\n        }\n    ],\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@daytona.com\",\n    \"imageUrl\": \"http://image.com\"\n}"
+    SocialNetwork:
+        description: 'Describes a supported social network with its name and URL'
+        required:
+            - id
+            - name
+            - url
+        properties:
+            id:
+                format: int32
+                type: integer
+            name:
+                type: string
+            url:
+                type: string
+        example: "{\n    \"id\": 1,\n    \"name\": \"Facebook\",\n    \"url\": \"http://facebook.com\"\n}"
+    YearMonth:
+        title: 'Root Type for YearMonth'
+        description: 'The root of the YearMonth type''s schema.'
+        type: string
+        example: '"2018-09"'
+    Certificate:
+        description: 'User''s certificate info'
+        required:
+            - id
+            - name
+            - levelId
+            - startedMonth
+            - doesNotExpire
+        type: object
+        properties:
+            id:
+                format: int32
+                type: integer
+                example: 1
+            name:
+                type: string
+                example: 'Ford Reparation Certificate'
+            levelId:
+                format: int32
+                type: integer
+            startedMonth:
+                $ref: '#/definitions/YearMonth'
+                example: 1
+            expiredMonth:
+                $ref: '#/definitions/YearMonth'
+                example: 1
+            doesNotExpire:
+                type: boolean
+            fileName:
+                type: string
+        example: "{\n    \"id\": 1,\n    \"name\": \"ASE Certificate\",\n    \"startedMonth\": \"2018-01\",\n    \"expiredMonth\": \"\",\n    \"doesNotExpire\": true,\n    \"levelId\": 1,\n    \"fileName\": \"ase certificate.jpg\"\n}"
+    Degree:
+        required:
+            - id
+            - typeId
+            - school
+            - fieldOfStudy
+            - graduatedOn
+        type: object
+        properties:
+            id:
+                format: int32
+                type: integer
+                example: 1
+            typeId:
+                format: int32
+                type: integer
+                example: 1
+            school:
+                type: string
+                example: 'High School of Vehicle Reparation'
+            fieldOfStudy:
+                type: string
+                example: 'Department of Car Reparation'
+            graduatedOn:
+                type: integer
+                example: 2015
+            fileName:
+                type: string
+        example: "{\n    \"id\": 1,\n    \"typeId\": 1,\n    \"school\": \"Auto College of Malibu\",\n    \"fieldOfStudy\": \"Tractor\",\n    \"graduatedOn\": 2010,\n    \"fileName\": \"auto college.jpg\"\n}"
+    TopicGroup:
+        required:
+            - id
+            - name
+            - topics
+        type: object
+        properties:
+            id:
+                format: int32
+                type: integer
+                example: 2
+            name:
+                type: string
+                example: 'Topic To Follow'
+            topics:
+                type: array
+                items:
+                    $ref: '#/definitions/IdValue'
+                example: 1
+        example: "{\n    \"id\": 1,\n    \"name\": \"Vehicle Systems\",\n    \"topics\": [\n        {\n            \"id\": 1,\n            \"value\": \"Air Conditioning\"\n        },\n        {\n            \"id\": 2,\n            \"value\": \"Body\"\n        },\n        {\n            \"id\": 3,\n            \"value\": \"Brakes\"\n        },\n        {\n            \"id\": 5,\n            \"value\": \"Electrical\"\n        },\n        {\n            \"id\": 8,\n            \"value\": \"Engine\"\n        },\n        {\n            \"id\": 13,\n            \"value\": \"Transmission\"\n        }\n    ]\n}"
+    Localization:
+        required:
+            - languageId
+            - dateFormatId
+            - timeFormatId
+            - timeZoneId
+        type: object
+        properties:
+            languageId:
+                format: int32
+                type: integer
+                example: 1
+            dateFormatId:
+                format: int32
+                type: integer
+                example: 1
+            timeFormatId:
+                format: int32
+                type: integer
+                example: 1
+            timeZoneId:
+                format: int32
+                type: integer
+                example: 1
+        example: "{\n    \"languageId\": 1,\n    \"dateFormatId\": 1,\n    \"timeFormatId\": 1,\n    \"timeZoneId\": 1\n}"
+    NamedValue:
+        required:
+            - id
+            - value
+            - name
+        properties:
+            id:
+                format: int32
+                type: integer
+            value:
+                type: string
+            name:
+                type: string
+    NotificationPreference:
+        required:
+            - id
+            - emailEnabled
+            - webEnabled
+        properties:
+            id:
+                type: integer
+            emailEnabled:
+                type: boolean
+            webEnabled:
+                type: boolean
+        example: "{\n    \"id\": 1,\n    \"emailEnabled\": true,\n    \"webEnabled\": false\n}"
+    OnboardingUpdate:
+        description: 'Object holding all the needed data to complete specified onboarding step'
+        required:
+            - stepId
+        properties:
+            model: {}
+            stepId:
+                format: int32
+                type: integer
+    OnboardingProfile:
+        required:
+            - profile
+            - localization
+        properties:
+            profile:
+                $ref: '#/definitions/Profile'
+            localization:
+                $ref: '#/definitions/Localization'
+        example: "{\n    \"profile\": {\n    \"city\": \"New York\",\n    \"stateId\": 1,\n    \"bio\": \"Bio Description\",\n    \"socialNetworkAccounts\": [\n        {\n            \"id\": 1,\n            \"account\": \"useraccountname\"\n        },\n        {\n            \"id\": 2,\n            \"account\": null\n        },\n        {\n            \"id\": 3,\n            \"account\": \"useraccountname\"\n        }\n    ],\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@daytona.com\",\n    \"imageUrl\": \"http://image.com\"\n},\n    \"localization\": {\n        \"languageId\": 1,\n        \"dateFormatId\": 1,\n        \"timeFormatId\": 2,\n        \"timeZoneId\": 53\n    }\n}"
+    OnboardingInfoProfile:
+        required:
+            - model
+            - reputation
+        type: object
+        properties:
+            model:
+                $ref: '#/definitions/OnboardingProfile'
+            reputation:
+                $ref: '#/definitions/Reputation'
+        example: "{\n    \"model\": {\n        \"profile\": {\n            \"city\": \"New York\",\n            \"stateId\": 1,\n            \"bio\": \"Bio Description\",\n            \"socialNetworkAccounts\": [\n                {\n                    \"id\": 1,\n                    \"account\": \"useraccountname\"\n                },\n                {\n                    \"id\": 2,\n                    \"account\": null\n                },\n                {\n                    \"id\": 3,\n                    \"account\": \"useraccountname\"\n                }\n            ],\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"email\": \"john.doe@daytona.com\",\n            \"imageUrl\": \"http://image.com\"\n        },\n        \"localization\": {\n            \"languageId\": 1,\n            \"dateFormatId\": 1,\n            \"timeFormatId\": 2,\n            \"timeZoneId\": 53\n        }\n    },\n    \"reputation\": {\n        \"totalPoints\": 210,\n        \"reputationItems\": [\n            {\n                \"checked\": true,\n                \"points\": 5,\n                \"id\": 4,\n                \"name\": \"Add a Profile Image\"\n            },\n            {\n                \"checked\": true,\n                \"points\": 5,\n                \"id\": 7,\n                \"name\": \"Complete Description\"\n            }\n        ],\n        \"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\n    }\n}"
+    Reputation:
         title: 'Root Type for onboardingReputation'
-        description: 'The root of the onboardingReputation type''s schema.'
+        description: '"Build your reputation" component data'
         type: object
         properties:
             totalPoints:
@@ -1820,7 +1869,89 @@ definitions:
                     $ref: '#/definitions/ReputationItem'
             videoUrl:
                 type: string
-        example: "{\n    \"totalPoints\": 19,\n    \"reputationItems\": [\n        {\n            \"checked\": true,\n            \"points\": 11,\n            \"id\": 89,\n            \"name\": \"some text\"\n        },\n        {\n            \"checked\": true,\n            \"points\": 22,\n            \"id\": 29,\n            \"name\": \"some text\"\n        }\n    ],\n    \"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\n}"
+        example: "{\n    \"totalPoints\": 210,\n    \"reputationItems\": [\n        {\n            \"checked\": true,\n            \"points\": 5,\n            \"id\": 4,\n            \"name\": \"Add a Profile Image\"\n        },\n        {\n            \"checked\": true,\n            \"points\": 5,\n            \"id\": 7,\n            \"name\": \"Complete Description\"\n        }\n    ],\n    \"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\n}"
+    OnboardingInfoTopics:
+        required:
+            - model
+        type: object
+        properties:
+            model:
+                type: array
+                items:
+                    type: integer
+                    example: 1
+    WorkExperience:
+        required:
+            - id
+            - title
+            - company
+            - endedMonth
+            - city
+            - stateId
+            - isCurrentWork
+        type: object
+        properties:
+            id:
+                format: int32
+                type: integer
+                example: 1
+            title:
+                type: string
+                example: 'Automative Technician'
+            company:
+                type: string
+                example: 'ABC Technician'
+            startedMonth:
+                $ref: '#/definitions/YearMonth'
+                example: 1
+            endedMonth:
+                $ref: '#/definitions/YearMonth'
+                example: 1
+            city:
+                type: string
+                example: 'New York'
+            stateId:
+                format: int32
+                type: integer
+                example: 1
+            isCurrentWork:
+                type: boolean
+        example: "{\n    \"id\": 1,\n    \"title\": \"Senior Technician\",\n    \"company\": \"Best Auto Repair Shop\",\n    \"startedMonth\": \"2004-01\",\n    \"endedMonth\": \"2014-05\",\n    \"city\": \"Malibu\",\n    \"stateId\": 1,\n    \"isCurrentWork\": false\n}"
+    OnboardingInfo:
+        title: 'Root Type for OnboardingInfo'
+        description: 'The root of the OnboardingInfo type''s schema.'
+        required:
+            - steps
+            - currentStepId
+            - step
+        type: object
+        properties:
+            steps:
+                description: 'All onboarding workflow steps in order'
+                type: array
+                items:
+                    $ref: '#/definitions/OnboardingStep'
+            currentStepId:
+                format: int32
+                description: 'Current step id'
+                type: integer
+            step:
+                $ref: '#/definitions/OnboardingStepInfo'
+                description: 'Step model, all the data needed to complete this step'
+        example: "{\r\n\t\"steps\": [{\r\n\t\t\t\"id\": 1,\r\n\t\t\t\"name\": \"onboarding-us-shop\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": 2,\r\n\t\t\t\"name\": \"onboarding-us-profile\"\r\n\t\t}\r\n\t],\r\n\t\"currentStepId\": 2,\r\n\t\"step\": {\r\n\t\t\"model\": {},\r\n\t\t\"reputation\": {\r\n\t\t\t\"totalPoints\": 19,\r\n\t\t\t\"reputationItems\": [{\r\n\t\t\t\t\t\"checked\": true,\r\n\t\t\t\t\t\"points\": 11,\r\n\t\t\t\t\t\"id\": 89,\r\n\t\t\t\t\t\"name\": \"some text\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"checked\": true,\r\n\t\t\t\t\t\"points\": 22,\r\n\t\t\t\t\t\"id\": 29,\r\n\t\t\t\t\t\"name\": \"some text\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\r\n\t\t}\r\n\t}\r\n}"
+    OnboardingInfoDegrees:
+        required:
+            - model
+        type: object
+        properties:
+            model:
+                type: array
+                items:
+                    $ref: '#/definitions/Degree'
+            reputation:
+                $ref: '#/definitions/Reputation'
+                description: '"Build your reputation" component data'
+        example: "{\n    \"model\": [\n        {\n            \"id\": 99491,\n            \"typeId\": 1,\n            \"school\": \"Auto College of Malibu\",\n            \"fieldOfStudy\": \"Tractor\",\n            \"graduatedOn\": 2010,\n            \"fileName\": \"auto college.jpg\"\n        },\n        {\n            \"id\": 98373,\n            \"typeId\": 3,\n            \"school\": \"Malibu Tech School\",\n            \"fieldOfStudy\": \"Engines\",\n            \"graduatedOn\": 2006,\n            \"fileName\": null\n        }\n    ],\n    \"reputation\": {\n        \"totalPoints\": 210,\n        \"reputationItems\": [\n            {\n                \"checked\": false,\n                \"points\": 100,\n                \"id\": 5,\n                \"name\": \"2 Year Degree\"\n            },\n            {\n                \"checked\": true,\n                \"points\": 100,\n                \"id\": 7,\n                \"name\": \"4 Year Degree\"\n            },\n            {\n                \"checked\": true,\n                \"points\": 100,\n                \"id\": 9,\n                \"name\": \"Tech School\"\n            }\n        ],\n        \"videoUrl\": \"https://youtu.be/sdsdf32uyguqweyf\"\n    }\n}"
 tags:
     -
         name: identity
@@ -1838,7 +1969,7 @@ tags:
         name: certificate
         description: 'Everything about users'' education certificate'
     -
-        name: experience
+        name: wokrExperience
         description: 'Everything about users'' work experience'
     -
         name: lookup
